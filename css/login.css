@@ -1,0 +1,98 @@
+#login_contain {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(255, 255, 255, 0.2);
+	width: 380px;
+	height: 235px;
+	box-shadow: 0 2px 10px #999;
+	/* display: none; */
+}
+
+#login_account,
+#login_password {
+	margin-left: 27px;
+	width: 80%;
+	font-size: 18px;
+	line-height: 16px;
+	height: 16px;
+	padding: 11px 8px 11px 10px;
+	border: 1px solid #ddd;
+
+	border-radius: 6px
+}
+
+#login_account {
+	margin-top: 40px;
+}
+
+#login_password {
+	margin-top: 10px;
+}
+
+#login_tip {
+	height: 30px;
+	line-height: 30px;
+	margin-left: 27px;
+	color: #ff3b8a;
+}
+
+#login_btn {
+	margin-left: 25px;
+	width: 327px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 40px;
+	border-radius: 3px;
+	outline: none;
+	background-color: #009a9a;
+	color: white;
+}
+#mask_btn{
+	width: 100px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 40px;
+	border-radius: 3px;
+	outline: none;
+	background-color: #009a9a;
+	color: white;
+	position: absolute;
+	left: 50%;
+	top: 70%;
+	transform: translate(-50%, -50%);
+}
+#mask_btn:hover{
+	cursor: pointer;
+}
+#send_btn {
+	position: absolute;
+	left: 52.5%;
+	top: 50%;
+	transform: translate(-50%, 150%);
+	width: 150px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 40px;
+	border-radius: 10px;
+	outline: none;
+	background-color: #009a9a;
+	color: white;
+}
+#send_btn:hover{
+	cursor: pointer;
+}
+#alert{
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+}
+#login_btn:hover {
+	cursor: pointer;
+}
+
