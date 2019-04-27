@@ -4,6 +4,8 @@ function getList() {
 		url: url + '/getList',
 		dataType: 'json',
 		success: function(data) {
+			friendlist.style.height = friendlist.parentNode.offsetHeight - friendlist.parentNode.children[0].offsetHeight -
+			friendlist.parentNode.children[1].offsetHeight + 'px';//高度自适应
 			myObj = {
 				id:myID+0,
 				nickname:'',
@@ -19,17 +21,11 @@ function getList() {
 			marklist = [];//存储左栏
 			chatlist = [];//存储聊天窗口
 			textlist = [];//储存内容
+			scrolllist = [];
 			var content = '';
 			var rightcontent = '';
-			var content_one1 = '<div class="chat" mark="';
-			var content_one2 = '"><img src="img/friend.png" class="friendhead"><div class="info"><p class="friendname">';
-			var content_two = '</p><p class = "chattip"></p></div></div>'
-			var content_three1 =
-				'<div class="right_chat" mark="';
-			var content_three2 = '"><img src="img/friend.png" class="right_friendhead"><p class="right_friendname">'
-			var content_four = '</p></div>';
 			for (i = 0; i < friendchat.length;i++) {
-				if(i ==myID ){content += (content_one1 + i + content_one2 + "我" + content_two);
+				if(i ==myID ){content += (content_one1 + i + content_one2 +'我'+ content_two);
 					rightcontent += (content_three1 + i + content_three2 + friendchat[i].nickname + content_four);continue;}
 				if (friendchat[i].nickname != '') {
 					content += (content_one1 + i + content_one2 + friendchat[i].nickname + content_two);
@@ -43,21 +39,38 @@ function getList() {
 			rightlist.innerHTML = rightcontent;
 			for (i = 0; i < friendchat.length; i++) {
 				chatlist[i] = document.createElement('div');
+				scrolllist[i] = document.createElement('div');
 				chatlist[i].className = 'chat_son';
+				scrolllist[i].className = 'chatscroll';
+				scrolllist[i].innerHTML = '<div class ="chatscroll_son"></div>'
 				document.querySelector('#chat_content').appendChild(chatlist[i]);
+				document.querySelector('#chat_content').appendChild(scrolllist[i]);
 				marklist[i] = friendlist_son.children[i];
 				textlist[i] = '';
+				getChathistory(i+'');
+				
 				marklist[i].onclick = function(){
+
 					for(i = 0;i<marklist.length;i++){
 					marklist[i].style.backgroundColor = 'transparent';
 					chatlist[i].style.display = 'none';}
 					this.style.backgroundColor = '#3A3F45';
+					scrolllist[chatmark].style.display = 'none';
 					chatmark = this.getAttribute("mark");
+					getChathistory(chatmark);
+					if(timeIP){clearInterval(timeIP)}
+					timeIP=setInterval(function(){getChathistory(chatmark)},2000)
 					document.querySelector('#chattext').value = textlist[chatmark];
 					chatlist[chatmark].style.display = 'block';
+					scrolllist[chatmark].style.display = 'block';
 					document.querySelector('#chat_top').innerText = this.children[1].children[0].innerText;
 				}
 			}
+			setTimeout(function(){for(i=friendchat.length-1;i>=0;i--){
+				if(marklist[i].children[1].children[1].innerText !=""){
+				friendlist_son.insertBefore(marklist[i], friendlist_son.children[0])};
+			}},1000)
+			
 			// chat_son[2].style.display = 'block';
 // 			for (i = 0; marklist.length; i++) {
 // 				marklist[i].onclick = function(){
@@ -69,9 +82,9 @@ function getList() {
 			document.querySelector("#main").style.display = 'none';
 			rightlist.onclick = function(e) {
 				e.target.parentNode.click();
-				var d = e.target.getAttributeNode("mark").value;
-				chatmark = d;
-				message(d);//点击右栏时候的变化
+				// var d = e.target.getAttributeNode("mark").value;
+				chatmark = e.target.getAttributeNode("mark").value
+				message(chatmark);//点击右栏时候的变化
 
 			}
 			document.querySelector('#barleft').click();//让页面回到左栏
@@ -237,6 +250,7 @@ function out() {
 	});
 } //out结尾
 function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
+	if(friendlists.offsetHeight<=friendlists.parentNode.offsetHeight)return;
 	var scroll_scale = friendlists.scrollHeight / friendlists.parentNode.offsetHeight; //设置比例
 	scroll_son.parentNode.style.height = friendlists.parentNode.offsetHeight + 'px'; //设置滚动父元素高度
 	scroll_son.style.height = friendlists.parentNode.offsetHeight / scroll_scale + 'px'; //设置滚动子元素高度
@@ -252,15 +266,15 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 			scroll_son.style.top = b + now + 'px';
 			friendlists.style.top = a - now * scroll_scale + 'px';
 		}
-
 	}
 	document.onmouseup = function() {
 		document.onmousemove = null; //一定要设置这个 否则鼠标会一直跟着走;
 	}
-	friendlists.onmousewheel = function(e) {
+	friendlists.onwheel = function(e) {
 		var b = scroll_son.offsetTop;
 		var a = friendlists.offsetTop;
 		var scroll_target = (friendlists.parentNode.offsetHeight - scroll_son.offsetHeight) * 0.2;
+		// var scrollabs = e.wheelDelta || e.
 		var mark = Math.abs(e.wheelDelta) / e.wheelDelta;
 		var timeID = setInterval(function() {
 			scroll_son.style.top = scroll_son.offsetTop - 5 * mark + 'px';
@@ -293,7 +307,19 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 			}
 		}, 1) //定时器末尾
 	}
-} //滚动结尾
+	 function addMouseWheelEvent(element,func) {
+ 
+     if (typeof element.onmousewheel == "object") {
+       element.onmousewheel = function() {
+         func();
+      };
+    }
+ 
+    if (typeof element.onmousewheel == "undefined") {
+       element.addEventListener("DOMMouseScroll",func,false);
+    } 
+  }
+}//滚动结尾
 function UserInfor(UserID) {
 	$.ajax({
 		type: "GET",
@@ -333,6 +359,7 @@ function maskshow(q) {
 // 	}, 10000);
 }
 function getChathistory(hisid){
+	if(hisid == myID) return;
 	$.ajax({
 		type: "POST",
 		url: url + '/getChatRecord',
@@ -341,7 +368,26 @@ function getChathistory(hisid){
 		},
 		dataType: 'json',
 		success: function(data) {
-			console.log(data);
+			var content ='';
+			
+			for( i=0;i<data.message.length;i++){
+				var time = data.message[i].date;
+				var timecontent = data.message[i].date.substring(5,10)+'  '+data.message[i].date.substring(11,16);
+				if(data.message[i].sender!=myID){
+					content+= (content_five1+timecontent+content_left+data.message[i].content+content_five2);
+				}
+				else{
+					content+= (content_five1+timecontent+content_right+data.message[i].content+content_five2);
+				}
+			}
+			chatlist[chatmark].innerHTML = content;
+			marklist[hisid].children[1].children[1].innerText = data.message[data.message.length-1].content;
+			scrollfun(chatlist[chatmark],scrolllist[chatmark].children[0]);
+							if(chatlist[chatmark].onwheel){
+					chatlist[chatmark].style.top =chatlist[chatmark].parentNode.offsetHeight-chatlist[chatmark].scrollHeight+'px';
+					scrolllist[chatmark].children[0].style.top =(chatlist[chatmark].scrollHeight-chatlist[chatmark].parentNode.offsetHeight)/
+					(chatlist[chatmark].scrollHeight/chatlist[chatmark].parentNode.offsetHeight)+'px';
+				}
 		},
 	});
 }
