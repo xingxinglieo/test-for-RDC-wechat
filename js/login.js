@@ -1,7 +1,7 @@
 //登之前确保登出;
 var url = 'http://120.77.247.10';
 var timeIP;
-var scroll_scale;
+var newsdata;
 var content_one1 = '<div class="chat" mark="';
 var content_one2 = '"><img src="img/friend.png" class="friendhead"><div class="info"><p class="friendname">';
 var content_two = '</p><p class = "chattip"></p></div><div class="dot"></div></div>'
@@ -23,6 +23,13 @@ var message_three ='</p><p class="letmiddle age">年龄:    ';
 var message_four = '</p><p class="letmiddle address">地址:    ';
 var message_five = '</p><p class="letmiddle mailbox">邮箱:    ';
 var message_six = '	</p><input type="button" name="" class="send_btn" value="发送消息" /></div>'
+var news_one = '<div style="padding:10px 10px 0px 10px;"><img  src="';
+var news_two= '" style="width: 64px;height: 40px;padding-right: 10px;"/><div class="middlelist_info" link="'
+var news_twoo ='<div style="padding:10px 10px 0px 10px;"><h3 class="middlelist_info" style="width:100%;" link="'
+var news_twooo ='<div style="padding:10px 10px 0px 10px;"><div class="middlelist_info" style="width:100%;" link="'
+var news_end ='">';
+var news_three = '</div></div>';
+var news_threeo = '</h3></div>';
 var login_contain = document.querySelector('#login_contain');
 var login_btn = document.querySelector('#login_btn');
 chatmark = 0;
@@ -118,7 +125,7 @@ document.querySelector('#textbtn').onclick = function() {
 document.querySelector("#menu").onclick = function(e) {
 	document.querySelector('#login_out').style.display = 'block';
 	e.stopPropagation(); //防止事件冒泡
-};
+}; 
 document.querySelector('#outl').onclick = out;
 document.querySelector('#history').onclick = function() {
 	getChathistory(chatmark);
@@ -141,14 +148,6 @@ document.querySelector('#barmiddle').onclick = function() {
 	document.querySelector('#frame').style.display = 'block'
 	document.querySelector('#middlelist').style.display = 'block';
 	document.querySelector('#middlescroll').style.display = 'block';
-	$.ajax({
-			type: "GET", //data 传送数据类型。get 传递
-			url: 'https://www.apiopen.top/journalismApi',
-			dataType: 'json',
-			success: function(data) {
-			console.log(data);
-			},
-		})
 }
 document.querySelector('#barright').onclick = function() {
 	listhidden();
@@ -209,3 +208,29 @@ document.querySelector('#barright img').onmouseenter = function(){
 document.querySelector('#barright img').onmouseleave = function(){
 	this.src = 'img/联系人信息.png';
 }
+$.ajax({
+			type: "GET", //data 传送数据类型。get 传递
+			url: 'https://www.apiopen.top/journalismApi',
+			dataType: 'json',
+			success: function(o) {
+			var newscontent = '';
+			newsdata = o.data;
+			for(i=0;i<8;i++){
+				newscontent+=(news_twoo+newsdata.toutiao[i].link+news_end+newsdata.toutiao[i].title+news_threeo);
+			}
+			for(i=0;i<newsdata.tech.length;i++){
+				if(newsdata.tech[i].picInfo.length==0)
+				newscontent+=(news_twooo+newsdata.tech[i].link+news_end+newsdata.tech[i].title+news_three);
+				else
+				newscontent+=(news_one+newsdata.tech[i].picInfo[0].url+news_two+newsdata.tech[i].link+news_end+newsdata.tech[i].title+news_three);
+				if(newsdata.dy[i].picInfo.length==0)
+				newscontent+=(news_twooo+newsdata.dy[i].link+news_end+newsdata.dy[i].title+news_three);
+				else
+				newscontent+=(news_one+newsdata.dy[i].picInfo[0].url+news_two+newsdata.dy[i].link+news_end+newsdata.dy[i].title+news_three);
+			}
+			document.querySelector('#middlelist').innerHTML = newscontent;
+			document.querySelector('#middlelist').onclick = function(e){
+				document.querySelector('#frame').src = e.target.getAttribute("link");
+			}
+			},
+	})

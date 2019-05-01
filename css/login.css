@@ -68,7 +68,7 @@
 #mask_btn:hover{
 	cursor: pointer;
 }
-#send_btn {
+.send_btn {
 	position: absolute;
 	left: 52.5%;
 	top: 50%;

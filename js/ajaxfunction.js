@@ -141,6 +141,7 @@ function getList() {
 			rightlist.innerHTML = rightcontent; //好友列表的内容插入
 			scrollfun(friendlist_son, srcoll_son); //滚动条
 			scrollfun(rightlist, rightscroll_son);
+			scrollfun(document.querySelector('#middlelist'),document.querySelector('#middlescroll_son'))
 			for (i = 0; i < friendchat.length; i++) {
 				chatlist[i] = document.createElement('div');
 				scrolllist[i] = document.createElement('div');
@@ -156,6 +157,7 @@ function getList() {
 					for (i = 0; i < marklist.length; i++) {
 						marklist[i].style.backgroundColor = 'transparent';
 						chatlist[i].style.display = 'none';
+						scrolllist[i].style.display = 'none';
 					} //先清空颜色 全部隐藏
 					this.style.backgroundColor = '#3A3F45'; //再给点击对象更新颜色
 					document.querySelector('#newtip').style.display = 'none';//使聊天框的提示消失
@@ -351,9 +353,9 @@ function getChathistory(hisid) {
 			chatlist[chatmark].innerHTML = content;
 			// console.log(data.message[data.message.length-1].content);
 			marklist[hisid].children[1].children[1].innerText = data.message[data.message.length - 1].content; //用户名 
-			scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
-			if(scrolllist[chatmark].children[0].scrollHeight>scrolllist[chatmark].children[0].offsetHeight)
-			{ //更新滚动条长度
+			scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);//更新滚动条长度
+			if(chatlist[chatmark].scrollHeight>chatlist[chatmark].parentNode.offsetHeight)
+			{
 			scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[0].offsetHeight + 'px';
 			chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight-chatlist[chatmark].scrollHeight+'px';
 			}//回到底部
