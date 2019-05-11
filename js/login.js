@@ -186,15 +186,6 @@ function listhidden() {
 	document.querySelector('#rightlist').style.display = 'none';
 	document.querySelector('#rightcscroll').style.display = 'none';
 }
-document.onclick = function() {
-	document.querySelector('#login_out').style.display = 'none';
-	// setTimeout(function(){if(document.querySelector('#change').style.display =='block')
-	// document.querySelector('#change').style.display = 'none';},10);
-	// if(document.querySelector('#change').style.display =='none')
-	// return;
-	// else
-	document.querySelector('#change').style.display = 'none';
-}
 document.querySelector('#change').onclick = function(e) {
 	e.stopPropagation()
 }
@@ -255,13 +246,31 @@ document.querySelector('#lasthistory').onclick = function() {
 
 	} //回到上一次滚动地方
 }
-
+document.querySelector('#emojicontain').onclick = function(e){
+	if(e.target.getAttribute("mark"))
+	document.querySelector('#chattext').value+=e.target.getAttribute("mark");
+	document.querySelector('#chattext').focus();
+}
+document.querySelector('#emojibar').onclick = function(e){
+	document.querySelector('#emojicontain').style.display = 'block';
+	e.stopPropagation();
+}
 function TopHistory(e) {
 	var b = document.querySelector('.chatscroll_son').offsetTop;
 	var abs = e.detail || e.wheelDelta;
 	if (b == 0 && Math.abs(abs) / abs) {
 		document.querySelector('#lasthistory').click();
 	}
+}
+document.onclick = function() {
+	document.querySelector('#login_out').style.display = 'none';
+	// setTimeout(function(){if(document.querySelector('#change').style.display =='block')
+	// document.querySelector('#change').style.display = 'none';},10);
+	// if(document.querySelector('#change').style.display =='none')
+	// return;
+	// else
+	document.querySelector('#change').style.display = 'none';
+	document.querySelector('#emojicontain').style.display = 'none'
 }
 $.ajax({
 	type: "GET", //data 传送数据类型。get 传递

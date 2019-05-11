@@ -17,12 +17,12 @@
 
 .leftchat:before {
 	content: "";
-    width: 15px;
-    height: 15px;
-    background: white;
-    position: absolute;
-    left: -3px;
-    top: 30%;
+	width: 15px;
+	height: 15px;
+	background: white;
+	position: absolute;
+	left: -3px;
+	top: 30%;
 	transform: rotate(45deg);
 	border-radius: 3px;
 	z-index: -1;
@@ -33,18 +33,20 @@
 	padding-right: 15px;
 	margin-right: 20px;
 }
+
 .rightchat:before {
 	content: "";
-    width: 15px;
-    height: 15px;
-    background: white;
-    position: absolute;
-    right: -3px;
-    top: 30%;
+	width: 15px;
+	height: 15px;
+	background: white;
+	position: absolute;
+	right: -3px;
+	top: 30%;
 	transform: rotate(45deg);
 	border-radius: 3px;
 	z-index: -1;
 }
+
 .timetip {
 	font-size: 10px;
 	height: 50px;
@@ -58,8 +60,33 @@
 .chathead {
 	width: 40px;
 	height: 40px;
-	margin-right:20px;
+	margin-right: 20px;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
+#emojicontain {
+	position: absolute;
+	top: -123px;
+	left: 5px;
+	height: 108px;
+	width: 415px;
+	word-break: break-word;
+	overflow: auto;
+	font-size: 20px;
+	text-align: left;
+	box-shadow:1px 1px 10px 1px gray;
+	border-radius: 3px;
+	padding: 5px;
+	display: none;
+}
+#emojicontain:hover{
+	cursor: pointer;
+}
+.emoji {
+	display: inline-block;
+	width: 22px;
+}
+.emoji:hover{
+	cursor: pointer;
+}
