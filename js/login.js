@@ -1,5 +1,5 @@
 //登之前确保登出;
-document.cookie ="id=1";
+document.cookie = "id=1";
 var url = 'http://120.77.247.10';
 var timeIP;
 var newsdata;
@@ -34,13 +34,12 @@ var news_three = '</div></div>';
 var news_threeo = '</h3></div>';
 var login_contain = document.querySelector('#login_contain');
 var login_btn = document.querySelector('#login_btn');
-if(localStorage.getItem("status")=="true"){
+if (localStorage.getItem("status") == "true") {
 	document.querySelector('#remember').checked = true;
 	document.querySelector('#login_account').value = localStorage.getItem('username');
 	document.querySelector('#login_password').value = localStorage.getItem('password');
-}
-else
-document.querySelector('#remember').checked = false;//保存密码函数
+} else
+	document.querySelector('#remember').checked = false; //保存密码函数
 
 chatmark = 0;
 friendlist = document.querySelector('#friendlist'); //这个是包含三个容器的
@@ -194,9 +193,9 @@ document.onclick = function() {
 	// if(document.querySelector('#change').style.display =='none')
 	// return;
 	// else
-	document.querySelector('#change').style.display ='none';
+	document.querySelector('#change').style.display = 'none';
 }
-document.querySelector('#change').onclick = function(e){
+document.querySelector('#change').onclick = function(e) {
 	e.stopPropagation()
 }
 document.addEventListener("keydown", function(e) {
@@ -232,18 +231,37 @@ document.querySelector('#barright img').onmouseenter = function() {
 document.querySelector('#barright img').onmouseleave = function() {
 	this.src = 'img/联系人信息.png';
 }
-document.querySelector('#lasthistory').onclick = function(){
-	if(document.querySelector('.chatscroll_son').style.top<= 5){
-		var content;
-		console.log(historylist[chatmark+0],chatlist[chatmark].innerHTML);
-		for(i = 0; i<historylist[chatmark+0][0].length;i++){
-			content = historylist[chatmark+0][0][i] + content;
-			console.log(content); 
+document.querySelector('#lasthistory').onclick = function() {
+	if (historymark[chatmark] < 0 || historymark[chatmark] >= historylist[chatmark + 0].length) {
+		chatlist[chatmark].removeEventListener("wheel", TopHistory);
+		chatlist[chatmark].style.top = '0px';
+		scrolllist[chatmark].children[0].style.top = '0px';
+		return;
 	}
-	console.log(content);
+	var content = '';
+	for (i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
+		content += historylist[chatmark + 0][historymark[chatmark]][i];
+	}
+	var Height = chatlist[chatmark].scrollHeight;
 	chatlist[chatmark].innerHTML = content + chatlist[chatmark].innerHTML;
+	historymark[chatmark]++;
 	scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]); //更新滚动条长度
+	if (Height <= 20) return;
+	if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) { //这种情况是之前肯定有滚动条
+		chatlist[chatmark].style.top = Height - chatlist[chatmark].scrollHeight +
+			'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
+		scrolllist[chatmark].children[0].style.top = -(scrolllist[chatmark].children[0].offsetHeight /
+		chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight) + 'px';
+
+	} //回到上一次滚动地方
 }
+
+function TopHistory(e) {
+	var b = document.querySelector('.chatscroll_son').offsetTop;
+	var abs = e.detail || e.wheelDelta;
+	if (b == 0 && Math.abs(abs) / abs) {
+		document.querySelector('#lasthistory').click();
+	}
 }
 $.ajax({
 	type: "GET", //data 传送数据类型。get 传递

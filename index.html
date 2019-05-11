@@ -100,8 +100,8 @@
 			<div id="panel" onselectstart="return false;">
 				<div id="header" onselectstart="return false;" style="white-space: nowrap;">
 					<img src="img/myicon.png" style="height: 54px;width: 54px;padding-right: 9.625px;" onselectstart="return false;">
-					<div style="display: inline-block;white-space: normal;width:55%;" onselectstart="return false;">
-						<h4 id="myname" style="float:left;color: white;height: 54px;line-height: 30px" onselectstart="return false;"></h4>
+					<div style="display: inline-block;white-space:nowrap;text-overflow: ellipsis;overflow: hidden;width:55%;" onselectstart="return false;">
+						<h4 id="myname" style="float:left;color: white;height: 54px;width: 100%;line-height: 30px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" onselectstart="return false;"></h4>
 					</div>
 					<a href="javascript:;" id="menu" style="background-image: url(img/菜单.png);"></a>
 					<div id="login_out">
@@ -147,12 +147,12 @@
 				<div id="chatcontain" style="width: 100%;height: 100%;position:absolute;padding:0px 15px;box-sizing: border-box;">
 					<div id="chat_top" class="letmiddle" style="color: black;"></div>
 					<div style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;margin-top:2px;">
-						<span id="lasthistory">滚动至顶部查看最近消息</span>
+						<span id="lasthistory">滚动至顶部或点击查看前十条消息</span>
 						</div>
 					<div id="chat_content">
 					</div>
-					<div id="historybar" style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;border-top:1px solid #c3c3c3;margin:10px 0px 5px 0px;">
-						<span id="history">查看历史消息</span>
+					<div id="historybar" style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;border-top:1px solid #c3c3c3;margin:18px 0px 5px 0px;">
+						<span id="history">查看全部历史消息</span>
 						<div id="newtip" style="display: none;position: absolute;top: -232%;left: 20px;max-width: 240px;padding:0px 5px;line-height: 21px;min-height: 21px;background-color:#6699ff;word-wrap: break-word;border-radius: 10px;color:white">
 							<div id="newtip_son"></div>
 						</div>

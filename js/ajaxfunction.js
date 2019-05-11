@@ -37,8 +37,7 @@ function login(a, p) {
 					dataType: 'json',
 					success: function(data) {
 						// data.message[myID]["nickname"] = data.message.nickname;
-						document.querySelector('#myname').innerHTML = data.message.nickname +
-							'<span id="timetip" style="color: white;line-height: 40px;font-size:12px;">' + timetip + '</span>';
+						document.querySelector('#myname').innerText = data.message.nickname ;
 					},
 				});
 				getList();
@@ -113,7 +112,7 @@ function getList() {
 		dataType: 'json',
 		success: function(data) {
 			friendlist.style.height = friendlist.parentNode.offsetHeight - friendlist.parentNode.children[0].offsetHeight -
-				friendlist.parentNode.children[1].offsetHeight-3 + 'px'; //高度自适应
+				friendlist.parentNode.children[1].offsetHeight - 3 + 'px'; //高度自适应
 			myObj = {
 				id: myID + 0,
 				nickname: '我',
@@ -133,33 +132,20 @@ function getList() {
 			messagelist = [];
 			hisname = [];
 			historylist = [];
+			historymark = [];
 			// setTimeout(function(){console.log(historylist)},10000)
 			var content = '';
 			var rightcontent = '';
 			for (i = 0; i < friendchat.length; i++) {
-				// if (i == myID) {
-				// 	content += (content_one1 + i + content_one2 + '我' + content_two);
-				// 	rightcontent += (content_three1 + i + content_three2 + friendchat[i].nickname + content_four);
-				// 	continue;
-				// }
-				// if (friendchat[i].nickname != '') {
 				content += (content_one1 + i + content_one2 + content_two);
 				// rightcontent += (content_three1 + i + content_three2 +friendchat[i].nickname + content_four);
 				rightcontent += (content_three1 + i + content_three2 + content_four);
-				// } else {
-				// 	content += (content_one1 + i + content_one2 + content_two);
-				// 	rightcontent += (content_three1 + i + content_three2 + '未命名(id:' + friendchat[i].id + ')' + content_four);
-				// }
 			} //动态生成list内容
 			friendlist_son.innerHTML = content; //聊天列表的内容插入
 			rightlist.innerHTML = rightcontent; //好友列表的内容插入
 			scrollfun(friendlist_son, srcoll_son); //滚动条
 			scrollfun(rightlist, rightscroll_son);
 			scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
-			// setInterval(function(){friendlist.style.height = friendlist.parentNode.offsetHeight - friendlist.parentNode.children[0].offsetHeight -
-			// 				friendlist.parentNode.children[1].offsetHeight + 'px';scrollfun(friendlist_son, srcoll_son); //滚动条
-			// 			scrollfun(rightlist, rightscroll_son);scrollfun(document.querySelector('#middlelist'),document.querySelector('#middlescroll_son'));
-			// 				 },500)
 			for (i = 0; i < friendchat.length; i++) {
 				chatlist[i] = document.createElement('div');
 				scrolllist[i] = document.createElement('div');
@@ -189,6 +175,17 @@ function getList() {
 					document.querySelector('#chat_content').appendChild(chatlist[chatmark]);
 					document.querySelector('#chat_content').appendChild(scrolllist[chatmark]);
 					scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
+					chatlist[chatmark].addEventListener("wheel", TopHistory)
+					if(historymark[chatmark]==0){
+						console.log(10000);
+						document.querySelector('#lasthistory').click();
+						if(chatlist[chatmark].scrollHeight>chatlist[chatmark].parentNode.offsetHeight){
+						scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
+							0].offsetHeight + 'px';
+						chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight +
+							'px';//回到底部
+					}
+					}
 					document.querySelector('#chat_top').innerText = this.children[1].children[0].innerText;
 				}
 				rightlist.children[i].onclick = function(e) {
@@ -208,6 +205,7 @@ function getList() {
 					// document.querySelector("#messagedetail").children[chatmark].style.display = 'block';
 				}
 			}
+			FirstnewMessage();
 			document.querySelector('#chat_content').appendChild(chatlist[0]); //加入好友列表
 			document.querySelector('#chat_content').appendChild(scrolllist[0]);
 			setTimeout(function() {
@@ -225,7 +223,7 @@ function getList() {
 			document.querySelector('#barleft').click(); //让页面回到左栏
 			for (i = 0; i < friendchat.length; i++) {
 				message('' + i);
-				History(''+i);
+				History('' + i);
 			}
 		}, //这里是sceess的函数的结尾别混了
 	})
@@ -246,8 +244,6 @@ function message(e) {
 				name = '未命名(id:' + e + ')'; //对方未命名时 加上未命名
 			else {
 				name = data.message.nickname;
-				// if (e != myID)
-				// 	marklist[e].children[1].children[0].innerText = data.message.nickname; //如果是我的id 聊天页面我的名字变成我
 			}
 			hisname[e] = name;
 			if (e != myID) {
@@ -309,6 +305,24 @@ function newMessage() {
 	});
 }
 
+function FirstnewMessage() {
+	$.ajax({
+		url: url + '/getUnreadChatRecord',
+		dataType: 'json', //服务器返回json格式数据
+		type: 'GET', //HTTP请求类型
+		timeout: 10000, //超时时间设置为10秒；
+		success: function(data) {
+			setTimeout(function() {
+				for (i = 0; i < data.message.length; i++) {
+					marklist[data.message[i].sender].children[1].children[1].innerText = data.message[i].content;
+					marklist[data.message[i].sender].children[2].style.display = 'block'; //显示红点
+					friendlist_son.insertBefore(marklist[data.message[i].sender], friendlist_son.children[0]);
+				}
+			}, 1500)
+		},
+	})
+}
+
 function out() {
 	$.ajax({
 		type: "GET",
@@ -360,7 +374,6 @@ function getChathistory(hisid) {
 		success: function(data) {
 			var contents = '';
 			//这个for循环为更新聊天窗消息
-			console.log(1000,data)
 			for (i = 0; i < data.message.length; i++) {
 				var time = data.message[i].date;
 				var timecontent = data.message[i].date.substring(5, 10) + '  ' + data.message[i].date.substring(11, 16);
@@ -370,7 +383,6 @@ function getChathistory(hisid) {
 					contents += (content_five1 + timecontent + content_right + data.message[i].content + content_five2);
 				}
 			}
-			console.log(contents);
 			chatlist[chatmark].innerHTML = contents;
 			// console.log(data.message[data.message.length-1].content);
 			marklist[hisid].children[1].children[1].innerText = data.message[data.message.length - 1].content; //用户名 
@@ -380,17 +392,15 @@ function getChathistory(hisid) {
 					0].offsetHeight + 'px';
 				chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight +
 					'px';
-			} //回到底部
-			// 			if(chatlist[chatmark].onwheel){
-			// 	chatlist[chatmark].style.top =chatlist[chatmark].parentNode.offsetHeight-chatlist[chatmark].scrollHeight+'px';
-			// 	scrolllist[chatmark].children[0].style.top =(chatlist[chatmark].scrollHeight-chatlist[chatmark].parentNode.offsetHeight)/
-			// 	(chatlist[chatmark].scrollHeight/chatlist[chatmark].parentNode.offsetHeight)+'px';
-			// }原用来每次有新消息时掉到最底部 有严重bug已荒废
+			}
+			//回到底部
+			historymark[hisid] = -1;
 		},
 	});
 }
-function History(hisid){
-	historylist[hisid+0] = [];
+
+function History(hisid) {
+	historylist[hisid + 0] = [];
 	if (hisid == myID) return;
 	$.ajax({
 		type: "POST",
@@ -399,23 +409,30 @@ function History(hisid){
 			id: hisid,
 		},
 		dataType: 'json',
-		success:function(data) {
-			for( i =0; i<Math.ceil(data.message.length/10);i++)
-			historylist[hisid+0][i] = [];
-			for (i = 0; i < data.message.length; i++) {
+		success: function(data) {
+			historymark[hisid] = 0;
+			if(data.message.length>0)
+			marklist[hisid].children[1].children[1].innerText = data.message[data.message.length-1].content;
+			for (i = 0; i < Math.ceil(data.message.length / 10); i++)
+				historylist[hisid + 0][i] = [];
+			for (var j = 0, i = data.message.length - 1; i >= 0; i--, j++) {
 				var time = data.message[i].date;
 				var timecontent = data.message[i].date.substring(5, 10) + '  ' + data.message[i].date.substring(11, 16);
 				if (data.message[i].sender != myID) {
-					
-					historylist[hisid+0][Math.floor(i/10)][i%10] = (content_five1 + timecontent + content_left + data.message[i].content + content_five2);
+
+					historylist[hisid + 0][Math.floor(j / 10)][j % 10] = (content_five1 + timecontent + content_left + data.message[
+						i].content + content_five2);
 				} else {
-					historylist[hisid+0][Math.floor(i/10)][i%10] = (content_five1 + timecontent + content_right + data.message[i].content + content_five2);
+					historylist[hisid + 0][Math.floor(j / 10)][j % 10] = (content_five1 + timecontent + content_right + data.message[
+						i].content + content_five2);
 				}
 			}
+			
 		},
-		})
-	
+	})
+
 }
+
 function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 	if (friendlists.offsetHeight <= friendlists.parentNode.offsetHeight) return;
 	var scroll_scale = friendlists.scrollHeight / friendlists.parentNode.offsetHeight; //设置比例 一定要加var 不然会有bug!
@@ -438,12 +455,14 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 		document.onmousemove = null; //一定要设置这个 否则鼠标会一直跟着走;
 	}
 	friendlists.onwheel = function(e) {
+		e = e || window.event;
 		var b = scroll_son.offsetTop;
 		var a = friendlists.offsetTop;
 		var scroll_target = 15;
+		var abs = e.detail || e.wheelDelta;
 		// var scroll_target = 2;
 		// var scrollabs = e.wheelDelta || e.
-		var mark = Math.abs(e.wheelDelta) / e.wheelDelta;
+		var mark = Math.abs(abs) / abs;
 		var timeID = setInterval(function() {
 			scroll_son.style.top = scroll_son.offsetTop - scroll_target * mark + 'px';
 			friendlists.style.top = friendlists.offsetTop + scroll_target * scroll_scale * mark + 'px';
@@ -474,14 +493,11 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 
 			}
 		}, 1) //定时器末尾
-		
-	}
+
+	};
 
 } //滚动结尾
 function maskshow(q) {
 	document.querySelector('#mask').style.display = 'block';
 	document.querySelector('#alert').innerText = q;
-	// 	setTimeout(function() {
-	// 		document.querySelector('#mask').style.display = 'none';
-	// 	}, 10000);
 }
