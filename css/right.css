@@ -17,14 +17,15 @@
 
 .leftchat:before {
 	content: "";
-	width: 15px;
-	height: 10px;
-	background: white;
-	position: absolute;
-	left: -5px;
-	top:10%;
+    width: 15px;
+    height: 15px;
+    background: white;
+    position: absolute;
+    left: -5px;
+    top: 30%;
 	transform: rotate(45deg);
 	border-radius: 3px;
+	z-index: -1;
 }
 
 .rightchat {
@@ -34,14 +35,15 @@
 }
 .rightchat:before {
 	content: "";
-	width: 15px;
-	height: 10px;
-	background: white;
-	position: absolute;
-	right: -5px;
-	top:10%;
+    width: 15px;
+    height: 15px;
+    background: white;
+    position: absolute;
+    left: -5px;
+    top: 30%;
 	transform: rotate(45deg);
 	border-radius: 3px;
+	z-index: -1;
 }
 .timetip {
 	font-size: 10px;
