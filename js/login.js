@@ -87,17 +87,15 @@ document.querySelector('#barleft').onclick = function() {
 	document.querySelector('#barmiddle').style.display = 'none';
 	document.querySelector('#barright').style.display = 'none';
 }
-document.querySelector('#chattext').onkeydown = function(e) {
+document.querySelector('#chattext').onkeydown = function() {
 	if (e.keyCode == 13)
 		document.querySelector('#textbtn').click();
 	textlist[chatmark] = this.value;
 }
 document.querySelector('#textbtn').onclick = function() {
-	// 	document.querySelector('#rotate').style.display = 'none';
-	// 	document.querySelector('#rotate').style.display = 'block';
+	var text = document.querySelector('#chattext');
+	if(text.value.length==0) {return;}
 	document.querySelector('#textbtn_before').style.display = 'block';
-
-	var text = document.querySelector('#chattext'); //滚动提前
 	textvalue = text.value;
 	text.value = '';
 	textlist[chatmark] = '';
@@ -114,9 +112,11 @@ document.querySelector('#textbtn').onclick = function() {
 			setTimeout(function() {
 				document.querySelector('#textbtn_before').style.display = 'none';
 				friendlist_son.insertBefore(marklist[chatmark], friendlist_son.children[0]); //将聊天头像提前
+				RecordBefore();
 				srcoll_son.style.top = '0px';
 				friendlist_son.style.top = '0px';
-			}, 300)
+			}, 100)
+			marklist[chatmark].children[2].style.display = 'none'; //红点消失
 			chatlist[chatmark].innerHTML += content_five1 + content_right + textvalue + content_five2;
 			marklist[chatmark].children[1].children[1].innerText = textvalue;
 			scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
@@ -138,6 +138,50 @@ document.querySelector("#menu").onclick = function(e) {
 	document.querySelector('#login_out').style.display = 'block';
 	e.stopPropagation(); //防止事件冒泡
 };
+document.querySelector("#csubmit").onclick = function() {
+	maskshow('请稍候..');
+	var g = document.querySelector('#cnickname').value;
+	var h = document.querySelector('#cage').value;
+	var j = document.querySelector('#caddress').value;
+	var k = document.querySelector('#cintroduction').value;
+	var l = document.querySelector('#cmailbox').value;
+	$.ajax({
+		type: "POST", //data 传送数据类型。post 传递
+		url: url + '/updateUserInfor',
+		data: {
+
+			nickname: g, //字符串，用户的昵称
+			age: h, //字符串，用户的年龄
+			address: j, //字符串，表示地址
+			introduction: k, //字符串，用户的自我介绍
+			mailbox: l, //字符串，用户的email
+
+		}, //传送的数据
+		dataType: 'json',
+		success: function(data) {
+			if (data.result == 'success') {
+				document.querySelector('#change').style.display = 'none';
+				maskshow('修改成功!');
+			} else
+				maskshow(data.message);
+			$.ajax({
+				type: "GET", //data 传送数据类型。post 传递
+				url: url + '/getUserInfor',
+				data: {
+					id: myID
+				},
+				dataType: 'json',
+				success: function(data) {
+					// data.message[myID]["nickname"] = data.message.nickname;
+					document.querySelector('#myname').innerHTML = data.message.nickname ;
+				},
+			})
+		},
+		error: function() {
+			maskshow('修改失败,请检查网络或者刷新页面');
+		},
+	})
+}
 document.querySelector('#outl').onclick = out;
 document.querySelector('#history').onclick = function() {
 	getChathistory(chatmark);
@@ -242,19 +286,21 @@ document.querySelector('#lasthistory').onclick = function() {
 		chatlist[chatmark].style.top = Height - chatlist[chatmark].scrollHeight +
 			'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
 		scrolllist[chatmark].children[0].style.top = -(scrolllist[chatmark].children[0].offsetHeight /
-		chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight) + 'px';
+			chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight) + 'px';
 
 	} //回到上一次滚动地方
 }
-document.querySelector('#emojicontain').onclick = function(e){
-	if(e.target.getAttribute("mark"))
-	document.querySelector('#chattext').value+=e.target.getAttribute("mark");
+document.querySelector('#emojicontain').onclick = function(e) {
+	if (e.target.getAttribute("mark"))
+		document.querySelector('#chattext').value += e.target.getAttribute("mark");
 	document.querySelector('#chattext').focus();
+	textlist[chatmark] = document.querySelector('#chattext').value;
 }
-document.querySelector('#emojibar').onclick = function(e){
+document.querySelector('#emojibar').onclick = function(e) {
 	document.querySelector('#emojicontain').style.display = 'block';
 	e.stopPropagation();
 }
+
 function TopHistory(e) {
 	var b = document.querySelector('.chatscroll_son').offsetTop;
 	var abs = e.detail || e.wheelDelta;
@@ -271,6 +317,25 @@ document.onclick = function() {
 	// else
 	document.querySelector('#change').style.display = 'none';
 	document.querySelector('#emojicontain').style.display = 'none'
+}
+
+function RecordBefore() {
+	var record = '';
+	for (i = 0; i < friendlist_son.children.length; i++) {
+		if (i == friendlist_son.children.length - 1)
+			record += friendlist_son.children[i].getAttribute("mark");
+		else
+			record += (friendlist_son.children[i].getAttribute("mark") + '!')
+	}
+	localStorage.setItem("record", record);
+}
+
+function Relist(){ //给消息排序,记得写一个排序函数 记录顺序
+	if(localStorage.getItem("record")==undefined) return;
+	var record = localStorage.getItem("record");
+	var mark = record.split("!");
+	for(i=marklist.length-1;i>=0;i--){
+		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);}
 }
 $.ajax({
 	type: "GET", //data 传送数据类型。get 传递
