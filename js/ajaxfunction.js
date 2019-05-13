@@ -80,6 +80,8 @@ function getList() {
 			var srcoll_son = document.querySelector('#srcoll_son'); //左滚动条
 			var rightlist = document.querySelector("#rightlist"); //右边
 			var rightscroll_son = document.querySelector('#rightcscroll_son');
+			var midlist = document.querySelector('#middlelist');
+			var midson = document.querySelector('#middlescroll_son');
 			marklist = []; //存储左栏
 			chatlist = []; //存储聊天窗口
 			textlist = []; //储存内容
@@ -99,7 +101,7 @@ function getList() {
 			rightlist.innerHTML = rightcontent; //详情信息列表的内容插入
 			scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 			scrollfun(rightlist, rightscroll_son);
-			scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
+			scrollfun(midlist,midson);	
 			for (i = 0; i < friendchat.length; i++) { //这里是创造窗口对象
 				chatlist[i] = document.createElement('div');
 				scrolllist[i] = document.createElement('div');
@@ -363,70 +365,7 @@ function History(hisid) {
 
 }
 
-function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
-	if (friendlists.offsetHeight <= friendlists.parentNode.offsetHeight) return;
-	var scroll_scale = friendlists.scrollHeight / friendlists.parentNode.offsetHeight; //设置比例 一定要加var 不然会有bug!
-	scroll_son.parentNode.style.height = friendlists.parentNode.offsetHeight + 'px'; //设置滚动父元素高度
-	scroll_son.style.height = friendlists.parentNode.offsetHeight / scroll_scale + 'px'; //设置滚动子元素高度
-	scroll_son.onmousedown = function(e) {
-		var initial = e.pageY;
-		var b = scroll_son.offsetTop;
-		var a = friendlists.offsetTop; //点击鼠标拖动
-		document.onmousemove = function(e) {
-			var now = e.pageY - initial;
-			now < -b ? now = -b : now = now;
-			now > friendlists.parentNode.offsetHeight - scroll_son.offsetHeight - b ? now = friendlists.parentNode.offsetHeight -
-				scroll_son.offsetHeight - b : now = now; //防止移出范围
-			scroll_son.style.top = b + now + 'px';
-			friendlists.style.top = a - now * scroll_scale + 'px';
-		}
-	}
-	document.onmouseup = function() {
-		document.onmousemove = null; //一定要设置这个 否则鼠标会一直跟着走;
-	}
-	friendlists.onwheel = function(e) {
-		e = e || window.event;
-		var b = scroll_son.offsetTop;
-		var a = friendlists.offsetTop;
-		var scroll_target = 15;
-		var abs = e.detail || e.wheelDelta;
-		// var scroll_target = 2;
-		// var scrollabs = e.wheelDelta || e.
-		var mark = Math.abs(abs) / abs;
-		var timeID = setInterval(function() {
-			scroll_son.style.top = scroll_son.offsetTop - scroll_target * mark + 'px';
-			friendlists.style.top = friendlists.offsetTop + scroll_target * scroll_scale * mark + 'px';
-			if (mark > 0) {
-				if (scroll_son.offsetTop <= b - scroll_target) {
-					scroll_son.style.top = b - scroll_target + 'px';
-					friendlists.style.top = a + scroll_target * scroll_scale + 'px';
-					clearInterval(timeID);
-				}
-				if (scroll_son.offsetTop <= 0) {
-					scroll_son.style.top = 0 + 'px';
-					friendlists.style.top = 0 + 'px';
-					clearInterval(timeID);
-					return;
-				}
-			} else {
-				if (scroll_son.offsetTop > b + scroll_target) {
-					scroll_son.style.top = b + scroll_target + 'px';
-					friendlists.style.top = a - (scroll_target) * scroll_scale + 'px';
-					clearInterval(timeID);
-				}
-				if (scroll_son.offsetTop > friendlists.parentNode.offsetHeight - scroll_son.offsetHeight) {
-					scroll_son.style.top = friendlists.parentNode.offsetHeight - scroll_son.offsetHeight + 'px';
-					friendlists.style.top = friendlists.parentNode.offsetHeight - friendlists.scrollHeight + 'px';
-					clearInterval(timeID);
-					return;
-				}
 
-			}
-		}, 1) //定时器末尾
-
-	};
-
-} //滚动结尾
 function maskshow(q) {
 	document.querySelector('#mask').style.display = 'block';
 	document.querySelector('#alert').innerText = q;

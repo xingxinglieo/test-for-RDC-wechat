@@ -204,7 +204,8 @@ background-color: rgba(108,110,113,0.8);
 	background-color: rgba(108,110,113);
 }
 #middlescroll{
-	position: absolute;right: 0px;top: 0px;border-radius: 8px;width: 10px;background-color: rgb(204, 204, 204);height: 582px;
+	position: absolute;right: 0px;top: 0px;border-radius: 8px;width: 10px;background-color: rgb(204, 204, 204);
+	
 }
 #middlescroll_son{
 position: absolute;
