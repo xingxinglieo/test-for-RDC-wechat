@@ -7,6 +7,7 @@
 	background-color: white;
 	padding: 10px;
 	position: relative;
+	white-space: pre-line;
 }
 
 .leftchat {
@@ -75,19 +76,35 @@
 	overflow: auto;
 	font-size: 20px;
 	text-align: left;
-	box-shadow:1px 1px 10px 1px gray;
-	background-color: rgba(255,255,255,0.8);
+	box-shadow: 1px 1px 10px 1px gray;
+	background-color: rgba(255, 255, 255, 0.8);
 	border-radius: 3px;
 	padding: 5px;
 	display: none;
 }
-#emojicontain:hover{
+
+#emojicontain:hover {
 	cursor: pointer;
 }
+
 .emoji {
 	display: inline-block;
 	width: 22px;
 }
-.emoji:hover{
+
+.emoji:hover {
 	cursor: pointer;
+}
+
+#yanchi {
+	height: 12px;
+	width: 12px;
+	background-image: url(../img/rotate.gif);
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: absolute;
+	top: 12px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: none;
 }

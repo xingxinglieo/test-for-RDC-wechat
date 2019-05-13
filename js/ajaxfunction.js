@@ -116,7 +116,7 @@ function getList() {
 					document.querySelector('#chat_content').removeChild(document.querySelector('.chatscroll'));
 					this.style.backgroundColor = '#3A3F45'; //再给点击对象更新颜色
 					document.querySelector('#newtip').style.display = 'none'; //使聊天框的提示消失
-					textlist[chatmark] = document.querySelector('#chattext').value;//保存内容
+					textlist[chatmark] = document.querySelector('#chattext').value; //保存内容
 					chatmark = this.getAttribute("mark");
 					marklist[chatmark].children[2].style.display = 'none'; //隐藏红点?
 					document.querySelector('#chattext').value = textlist[chatmark];
@@ -125,14 +125,7 @@ function getList() {
 					scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
 					chatlist[chatmark].addEventListener("wheel", TopHistory)
 					if (historymark[chatmark] == 0) {
-						document.querySelector('#lasthistory').click();
-						if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) {
-							scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[
-								chatmark].children[
-								0].offsetHeight + 'px';
-							chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight +
-								'px'; //回到底部
-						}
+						Lasthistoryson();
 					}
 					document.querySelector('#chat_top').innerText = this.children[1].children[0].innerText;
 				}
@@ -171,6 +164,7 @@ function message(e) {
 			id: e
 		},
 		dataType: 'json',
+		timeout: 3000,
 		success: function(data) {
 			var name;
 			if (data.message.nickname == undefined || data.message.nickname == '')
@@ -188,6 +182,10 @@ function message(e) {
 			}
 			messagelist[e] = message_one + message_two + data.message.introduction + message_three + data.message.age +
 				message_four + data.message.address + message_five + data.message.mailbox + message_six;
+			if(e==0){
+				document.querySelector('#messagedetail').innerHTML = messagelist[e];
+				document.querySelector('.nickname').innerText = hisname[e];
+			}
 		},
 		error: {
 			function() {
@@ -213,22 +211,23 @@ function newMessage() {
 				marklist[data.message[i].sender].children[1].children[1].innerText = data.message[i].content; //提示更新 内容更新
 				scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
 				if (data.message[i].sender != chatmark); //底部重置)
-				{marklist[data.message[i].sender].children[2].style.display = 'block'; //显示红点
-				if(marklist[chatmark].style.backgroundColor==friendlist_son.children[0].style.backgroundColor)
-				friendlist_son.insertBefore(marklist[data.message[i].sender], friendlist_son.children[1]);
-				else
-				friendlist_son.insertBefore(marklist[data.message[i].sender], friendlist_son.children[0])
+				{
+					marklist[data.message[i].sender].children[2].style.display = 'block'; //显示红点
+					if (marklist[chatmark].style.backgroundColor == friendlist_son.children[0].style.backgroundColor)
+						friendlist_son.insertBefore(marklist[data.message[i].sender], friendlist_son.children[1]);
+					else
+						friendlist_son.insertBefore(marklist[data.message[i].sender], friendlist_son.children[0])
 				}
 				if (data.message[i].sender == chatmark && chatlist[chatmark].offsetTop <= chatlist[chatmark].parentNode.offsetHeight -
-					chatlist[chatmark].scrollHeight + 200) {//使在较低处的回到低处
+					chatlist[chatmark].scrollHeight + 200) { //使在较低处的回到低处
 					scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
 						0].offsetHeight + 'px';
 					chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight +
 						'px';
-					marklist[chatmark].children[2].style.display = 'none';	
+					marklist[chatmark].children[2].style.display = 'none';
 				}
 				if (data.message[i].sender == chatmark && chatlist[chatmark].offsetTop >= chatlist[chatmark].parentNode.offsetHeight -
-					chatlist[chatmark].scrollHeight + 200) {//显示蓝色的提示
+					chatlist[chatmark].scrollHeight + 200) { //显示蓝色的提示
 					document.querySelector('#newtip').innerHTML = data.message[i].content;
 					document.querySelector('#newtip').style.display = 'block';
 
@@ -260,7 +259,9 @@ function FirstnewMessage() {
 				var display = friendlist_son.children[0].children[2].style.display;
 				friendlist_son.children[0].click();
 				friendlist_son.children[0].children[2].style.display = display;
-				setTimeout(function(){friendlist_son.children[0].children[2].style.display = 'none';},2500)
+				setTimeout(function() {
+					friendlist_son.children[0].children[2].style.display = 'none';
+				}, 2500)
 			}, 1500)
 
 			for (i = 0; i < friendchat.length; i++) {

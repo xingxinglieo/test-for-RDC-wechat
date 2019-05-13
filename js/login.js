@@ -34,6 +34,11 @@ var news_three = '</div></div>';
 var news_threeo = '</h3></div>';
 var login_contain = document.querySelector('#login_contain');
 var login_btn = document.querySelector('#login_btn');
+var ctr = 0;
+var load = 1;
+var rightwidth = document.querySelector('#three_contain').offsetWidth;
+document.querySelector("#frame").style.left = -rightwidth + 'px'
+document.querySelector('#messagedetail').style.left = -2 * rightwidth + 'px';
 if (localStorage.getItem("status") == "true") {
 	document.querySelector('#remember').checked = true;
 	document.querySelector('#login_account').value = localStorage.getItem('username');
@@ -82,19 +87,25 @@ document.querySelector('#login_password').onkeydown = function(e) {
 document.querySelector('#mask_btn').onclick = function() {
 	document.querySelector('#mask').style.display = 'none';
 };
-document.querySelector('#barleft').onclick = function() {
-	document.querySelector('#barleft').onclick = 'none';
-	document.querySelector('#barmiddle').style.display = 'none';
-	document.querySelector('#barright').style.display = 'none';
-}
-document.querySelector('#chattext').onkeydown = function() {
-	if (e.keyCode == 13)
-		document.querySelector('#textbtn').click();
+document.querySelector('#chattext').addEventListener("keydown", function(e) {
+	if (e.keyCode == 17) ctr = 1;
+	if (e.keyCode == 13) {
+		if (ctr == 0) {
+			document.querySelector('#textbtn').click();
+			e.preventDefault();
+		} else this.value += '\n'
+	}
 	textlist[chatmark] = this.value;
-}
+})
+document.querySelector('#chattext').addEventListener("keyup", function(e) {
+	if (e.keyCode == 17)
+		ctr = 0;
+})
 document.querySelector('#textbtn').onclick = function() {
 	var text = document.querySelector('#chattext');
-	if(text.value.length==0) {return;}
+	if (text.value.length == 0) {
+		return;
+	}
 	document.querySelector('#textbtn_before').style.display = 'block';
 	textvalue = text.value;
 	text.value = '';
@@ -173,7 +184,7 @@ document.querySelector("#csubmit").onclick = function() {
 				dataType: 'json',
 				success: function(data) {
 					// data.message[myID]["nickname"] = data.message.nickname;
-					document.querySelector('#myname').innerHTML = data.message.nickname ;
+					document.querySelector('#myname').innerHTML = data.message.nickname;
 				},
 			})
 		},
@@ -194,20 +205,20 @@ document.querySelector('#xx').onclick = function() {
 }
 document.querySelector('#barleft').onclick = function() {
 	listhidden();
-	document.querySelector('#chatcontain').style.display = 'block'
+	animate(document.querySelector('#content_contain'), 0, 5, 'left');
 	document.querySelector("#friendlist_son").style.display = 'block';
 	document.querySelector('#srcoll').style.display = 'block';
 
 }
 document.querySelector('#barmiddle').onclick = function() {
 	listhidden();
-	document.querySelector('#frame').style.display = 'block'
+	animate(document.querySelector('#content_contain'), rightwidth, 5, 'left');
 	document.querySelector('#middlelist').style.display = 'block';
 	document.querySelector('#middlescroll').style.display = 'block';
 }
 document.querySelector('#barright').onclick = function() {
 	listhidden();
-	document.querySelector('#messagedetail').style.display = 'block'
+	animate(document.querySelector('#content_contain'), 2 * rightwidth, 5, 'left');
 	document.querySelector('#rightlist').style.display = 'block';
 	document.querySelector('#rightcscroll').style.display = 'block';
 }
@@ -220,9 +231,6 @@ document.querySelector('#newtip').onclick = function() {
 }
 
 function listhidden() {
-	document.querySelector('#chatcontain').style.display = 'none'
-	document.querySelector('#frame').style.display = 'none'
-	document.querySelector('#messagedetail').style.display = 'none'
 	document.querySelector("#friendlist_son").style.display = 'none';
 	document.querySelector('#srcoll').style.display = 'none';
 	document.querySelector('#middlelist').style.display = 'none';
@@ -240,10 +248,14 @@ document.addEventListener("keydown", function(e) {
 			type: "GET",
 			url: url + '/logout',
 			dataType: 'json',
+			timeout: 1000,
 			success: function() {
 				document.querySelector("#main").style.display = 'none'; //登出成功后隐藏界面
 				location.reload(true); //刷新页面
 			},
+			error: function() {
+				location.reload(true);
+			}
 		});
 		// location.reload(true); //要做的其他事情
 	}
@@ -266,7 +278,41 @@ document.querySelector('#barright img').onmouseenter = function() {
 document.querySelector('#barright img').onmouseleave = function() {
 	this.src = 'img/联系人信息.png';
 }
-document.querySelector('#lasthistory').onclick = function() {
+document.querySelector('#lasthistory').addEventListener("click", Lasthistory);
+
+function Lasthistory() {
+	if (load == 0) return;
+	else load = 0; //load记录防止多次触发函数
+	document.querySelector('#yanchi').style.display = 'block';
+	setTimeout(function() {
+		document.querySelector('#yanchi').style.display = 'none';
+		if (historymark[chatmark] < 0 || historymark[chatmark] >= historylist[chatmark + 0].length) {
+			chatlist[chatmark].removeEventListener("wheel", TopHistory);
+			chatlist[chatmark].style.top = '0px';
+			scrolllist[chatmark].children[0].style.top = '0px';
+			return;
+		}
+		var content = '';
+		for (i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
+			content += historylist[chatmark + 0][historymark[chatmark]][i];
+		}
+		var Height = chatlist[chatmark].scrollHeight;
+		chatlist[chatmark].innerHTML = content + chatlist[chatmark].innerHTML;
+		historymark[chatmark]++;
+		scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]); //更新滚动条长度
+		if (Height <= 20) return;
+		if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) { //这种情况是之前肯定有滚动条
+			chatlist[chatmark].style.top = Height - chatlist[chatmark].scrollHeight +
+				'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
+			var target = -(scrolllist[chatmark].children[0].offsetHeight /
+				chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight);
+			animate(scrolllist[chatmark].children[0], target, 5, 'top');
+		} //回到上一次滚动地方
+		load = 1;
+	}, 400)
+}
+
+function Lasthistoryson() {
 	if (historymark[chatmark] < 0 || historymark[chatmark] >= historylist[chatmark + 0].length) {
 		chatlist[chatmark].removeEventListener("wheel", TopHistory);
 		chatlist[chatmark].style.top = '0px';
@@ -277,18 +323,14 @@ document.querySelector('#lasthistory').onclick = function() {
 	for (i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
 		content += historylist[chatmark + 0][historymark[chatmark]][i];
 	}
-	var Height = chatlist[chatmark].scrollHeight;
 	chatlist[chatmark].innerHTML = content + chatlist[chatmark].innerHTML;
 	historymark[chatmark]++;
 	scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]); //更新滚动条长度
-	if (Height <= 20) return;
 	if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) { //这种情况是之前肯定有滚动条
-		chatlist[chatmark].style.top = Height - chatlist[chatmark].scrollHeight +
-			'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
-		scrolllist[chatmark].children[0].style.top = -(scrolllist[chatmark].children[0].offsetHeight /
-			chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight) + 'px';
-
-	} //回到上一次滚动地方
+		scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
+			0].offsetHeight + 'px';
+		chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight + 'px'; //回到底部
+	}
 }
 document.querySelector('#emojicontain').onclick = function(e) {
 	if (e.target.getAttribute("mark"))
@@ -304,7 +346,7 @@ document.querySelector('#emojibar').onclick = function(e) {
 function TopHistory(e) {
 	var b = document.querySelector('.chatscroll_son').offsetTop;
 	var abs = e.detail || e.wheelDelta;
-	if (b == 0 && Math.abs(abs) / abs) {
+	if (b == 0 && Math.abs(abs) / abs == 1) {
 		document.querySelector('#lasthistory').click();
 	}
 }
@@ -330,12 +372,13 @@ function RecordBefore() {
 	localStorage.setItem("record", record);
 }
 
-function Relist(){ //给消息排序,记得写一个排序函数 记录顺序
-	if(localStorage.getItem("record")==undefined) return;
+function Relist() { //给消息排序,记得写一个排序函数 记录顺序
+	if (localStorage.getItem("record") == undefined) return;
 	var record = localStorage.getItem("record");
 	var mark = record.split("!");
-	for(i=marklist.length-1;i>=0;i--){
-		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);}
+	for (i = marklist.length - 1; i >= 0; i--) {
+		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);
+	}
 }
 $.ajax({
 	type: "GET", //data 传送数据类型。get 传递
@@ -363,5 +406,6 @@ $.ajax({
 		document.querySelector('#middlelist').onclick = function(e) {
 			document.querySelector('#frame').src = e.target.getAttribute("link");
 		}
-	},
+		document.querySelector('#frame').src = document.querySelector('#middlelist').firstElementChild.firstElementChild.getAttribute("link");
+	}
 })

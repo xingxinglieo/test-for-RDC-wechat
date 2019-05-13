@@ -316,12 +316,17 @@ position: absolute;
 }
 
 #content_contain {
-	width: 72%;
 	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+#three_contain{
+	height: 100%;
+	width: 72%;
 	float: left;
 	position: relative;
+	overflow: hidden;
 }
-
 .ring {
 	height: 40px;
 	line-height: 40px;
