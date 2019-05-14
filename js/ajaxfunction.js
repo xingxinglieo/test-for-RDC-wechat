@@ -97,7 +97,6 @@ function getList() {
 			} //动态生成list内容
 			friendlist_son.innerHTML = content; //聊天好友列表的内容插入
 			rightlist.innerHTML = rightcontent; //详情信息列表的内容插入
-			scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 			scrollfun(rightlist, rightscroll_son);
 			scrollfun(document.querySelector('#middlelist'),document.querySelector('#middlescroll_son'));
 			for (i = 0; i < friendchat.length; i++) { //这里是创造窗口对象
@@ -111,10 +110,10 @@ function getList() {
 				marklist[i].onclick = function() { //聊天列表的点击事件
 					for (i = 0; i < marklist.length; i++) {
 						marklist[i].style.backgroundColor = 'transparent';
-					} //先清空颜色 全部隐藏
+					} //先清空颜色 
 					document.querySelector('#chat_content').removeChild(document.querySelector('.chat_son'));
 					document.querySelector('#chat_content').removeChild(document.querySelector('.chatscroll'));
-					this.style.backgroundColor = '#3A3F45'; //再给点击对象更新颜色
+					this.style.backgroundColor = '#ececed'; //再给点击对象更新颜色
 					document.querySelector('#newtip').style.display = 'none'; //使聊天框的提示消失
 					textlist[chatmark] = document.querySelector('#chattext').value; //保存内容
 					chatmark = this.getAttribute("mark");
@@ -138,6 +137,7 @@ function getList() {
 						marklist[chatmark].click();
 						friendlist_son.insertBefore(marklist[chatmark], friendlist_son.children[0]); //将聊天头像提前
 						RecordBefore();
+						scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 						document.querySelector('#srcoll_son').style.top = '0px';
 						document.querySelector('#friendlist_son').style.top = '0px';
 
@@ -196,6 +196,7 @@ function message(e) {
 		}
 	})
 } //message结尾
+
 function newMessage() {
 	$.ajax({
 		url: url + '/getUnreadChatRecord',

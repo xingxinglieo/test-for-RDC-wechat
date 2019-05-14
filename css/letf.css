@@ -2,7 +2,7 @@
 	width: 28%;
 	height: 100%;
 	float: left;
-	background: #2e3238;
+	background:#fafafa;
 	border-radius: 4px;
 }
 
@@ -12,6 +12,7 @@
 	z-index: 2;
 	border-radius: 5px;
 	display: none;
+	box-shadow:2px 2px 5px 2px gray;
 }
 
 .out {
@@ -55,8 +56,8 @@
 
 #header {
 	position: relative;
-	margin: 0 18px;
-	padding: 18px 0;
+	padding: 18px 18px;
+	background-color: #00a2ff;
 }
 
 #myname {
@@ -66,7 +67,7 @@
 
 #menu {
 	position: absolute;
-	right: 0;
+	right: 18px;
 	top: 50%;
 	transform: translate(0, -50%);
 	float: right;
@@ -80,19 +81,13 @@
 	display: flex;
 	height: 39px;
 	padding-bottom: 4px;
-	border-bottom: 1.4px solid #24272c;
 }
 
 #bar a {
 	flex: 1;
-	border-right: 1px solid #24272c;
 	height: 30px;
 	position: relative;
 	top: 4.5px;
-}
-
-#bar a:last-child {
-	border-right: none;
 }
 
 #bar a img {
@@ -146,11 +141,11 @@
 	top: 0px;
 	width: 10px;
 	border-radius: 8px;
-	background-color:rgba(255,255,255,0.2);
+	background-color:rgba(108,110,113,0.2);
 }
 #scroll_son:hover{
 cursor: pointer;
-background-color: rgba(108,110,113,0.8);
+background-color: rgba(108,110,113,0.5);
 }
 .chatscroll {
 	position: absolute;
@@ -189,19 +184,19 @@ background-color: rgba(108,110,113,0.8);
 	background-color: rgba(204,204,204,0.7);
 }
 #rightcscroll:hover > #rightcscroll_son{
-	background-color: rgba(108,110,113);
+	background-color: rgba(108,110,113,0.5);
 }
 #rightcscroll_son {
 	position: absolute;
 	top: 0px;
 	width: 10px;
 	border-radius: 8px;
-	background-color:rgba(255,255,255,0.2);
+	background-color:rgba(108,110,113,0.2);
 }
 
 #rightcscroll_son:hover {
 	cursor: pointer;
-	background-color: rgba(108,110,113);
+	background-color: rgba(108,110,113,0.5);
 }
 #middlescroll{
 	position: absolute;right: 0px;top: 0px;border-radius: 8px;width: 10px;background-color: rgb(204, 204, 204);
@@ -218,7 +213,7 @@ position: absolute;
 	position: relative;
 	height: 56px;
 	padding: 16.8px 0px 19px 15.5px;
-	border-bottom: 1px solid #292c33;
+	border-bottom: 0.5px solid #B0C4DE;
 	cursor: pointer;
 	/* position: relative; */
 	white-space: nowrap;
@@ -229,7 +224,7 @@ position: absolute;
 
 }
 .chat:hover{
-	background-color:#3A3F45 !important;
+	background-color:#ececed !important;
 				
 }
 
@@ -248,13 +243,12 @@ position: absolute;
 	height: 50px;
 	width: 50px;
 	padding-right: 9.625px;
-	opacity:0.4;
 }
 
 .right_chat {
 	height: 54px;
 	padding: 0px 19px;
-	border-bottom: 1px solid #292c33;
+	border-bottom: 0.5px solid #B0C4DE;
 	cursor: pointer;
 	/* position: relative; */
 	white-space: nowrap;
@@ -264,8 +258,8 @@ position: absolute;
 
 }
 .right_chat:hover{
+	background-color:#ececed;
 	transition:background-color 0.1s ease-in;
-	background-color:#3A3F45;
 }
 .right_friendhead {
 	height: 30px;
@@ -283,15 +277,18 @@ position: absolute;
 	overflow: hidden;
 }
 #middlelist h3:hover{
-	text-decoration:underline white;
+	text-decoration:underline black;
 	cursor: pointer;
 }
+.middlelist_info{
+	color: #000000;
+}
 .middlelist_info:hover{
-	text-decoration: underline;
+	text-decoration: underline black;
 	cursor: pointer;
 }
 .friendname {
-	color: white;
+	color: black;
 	vertical-align: top;
 	line-height: 2;
 	font-size: 18.2px;
@@ -303,7 +300,7 @@ position: absolute;
 
 .right_friendname {
 	display: inline-block;
-	color: white;
+	color: black;
 	line-height: 54px;
 	font-size: 14px;
 	white-space: nowrap;
@@ -376,7 +373,7 @@ position: absolute;
 	line-height: 40px;
 	border-radius: 5px;
 	outline: none;
-	background-color: #009a9a;
+	background-color: #00a2ff;
 	color: white;
 	/* position: absolute; */
 	float: right;

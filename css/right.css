@@ -4,7 +4,7 @@
 	min-width: 30px;
 	word-wrap: break-word;
 	border-radius: 10px;
-	background-color: white;
+	background-color: #eee;
 	padding: 10px;
 	position: relative;
 	white-space: pre-line;
@@ -20,7 +20,7 @@
 	content: "";
 	width: 15px;
 	height: 15px;
-	background: white;
+	background: #eee;
 	position: absolute;
 	left: -3px;
 	top: 30%;
@@ -39,7 +39,7 @@
 	content: "";
 	width: 15px;
 	height: 15px;
-	background: white;
+	background: #eee;
 	position: absolute;
 	right: -3px;
 	top: 30%;

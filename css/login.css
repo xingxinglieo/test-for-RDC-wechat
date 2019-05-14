@@ -1,8 +1,8 @@
 #login_contain {
 	position: absolute;
 	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+	top: 85%;
+	transform: translate(-50%, 0);
 	background-color: rgba(255, 255, 255, 0.2);
 	width: 380px;
 	height: 250px;
@@ -48,7 +48,7 @@
 	line-height: 40px;
 	border-radius: 3px;
 	outline: none;
-	background-color: #009a9a;
+	background-color: #00a2ff;
 	color: white;
 }
 #mask_btn{
@@ -59,7 +59,7 @@
 	line-height: 40px;
 	border-radius: 3px;
 	outline: none;
-	background-color: #009a9a;
+	background-color: #00a2ff;
 	color: white;
 	position: absolute;
 	left: 50%;
@@ -81,7 +81,7 @@
 	line-height: 40px;
 	border-radius: 10px;
 	outline: none;
-	background-color: #009a9a;
+	background-color: #00a2ff;
 	color: white;
 }
 #send_btn:hover{

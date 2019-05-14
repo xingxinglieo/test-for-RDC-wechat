@@ -4,7 +4,7 @@ var url = 'http://120.77.247.10';
 var timeIP;
 var newsdata;
 var content_one1 = '<div class="chat" mark="';
-var content_one2 = '"><img src="img/friend.png" class="friendhead"><div class="info"><div class="friendname">';
+var content_one2 = '"><img src="img/联系人.png" class="friendhead"><div class="info"><div class="friendname">';
 var content_two = '</div><div class = "chattip"></div></div><div class="dot"></div></div>'
 var content_three1 =
 	'<div class="right_chat" mark="';
@@ -13,9 +13,9 @@ var content_four = '</div></div>';
 var content_five1 = '<div class="timetip">';
 var content_five2 = '</div>';
 var content_right =
-	'</div><div class="chathead" style="float: right;background-image: url(img/myicon.png);"></div><div class="chats rightchat">'
+	'</div><div class="chathead" style="float: right;background-image: url(img/联系人.png);"></div><div class="chats rightchat">'
 var content_left =
-	'</div><div class="chathead" style="float: left;background-image:url(img/friend.png);"></div><div  class="chats leftchat">'
+	'</div><div class="chathead" style="float: left;background-image:url(img/联系人.png);"></div><div  class="chats leftchat">'
 //content+timetip+right/left+内容+content_five2;
 message_content = '';
 var message_one =
@@ -37,7 +37,7 @@ var login_btn = document.querySelector('#login_btn');
 var ctr = 0;
 var load = 1;
 var rightwidth = document.querySelector('#three_contain').offsetWidth;
-document.querySelector("#frame").style.left = -rightwidth + 'px'
+document.querySelector("#iframe").style.left = -rightwidth + 'px'
 document.querySelector('#messagedetail').style.left = -2 * rightwidth + 'px';
 if (localStorage.getItem("status") == "true") {
 	document.querySelector('#remember').checked = true;
@@ -229,6 +229,30 @@ document.querySelector('#newtip').onclick = function() {
 	chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight + 'px'; //点击后回滚底部
 	marklist[chatmark].children[2].style.display = 'none';
 }
+document.oncontextmenu = function(e) {
+	var target = e.target;
+	var textmenu = document.querySelector('#textmenu');
+	while (!target.getAttribute("mark") && target.getAttribute("id") != 'body') {
+		target = target.parentNode;
+	}
+	if (target.getAttribute("mark")) {
+		var x = e.pageX;
+		var y = e.pageY;
+		textmenu.style.left = x + 'px';
+		textmenu.style.top = y + 'px';
+		textmenu.style.display = 'block';
+		document.querySelector('#clearlist').onclick = function() {
+			document.querySelector('#friendlist_son').removeChild(target);
+			RecordBefore();
+			scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
+			if (target.getAttribute("mark") == chatmark) document.querySelector('#friendlist_son').firstElementChild.click();
+		}
+		return false;
+	}
+}
+document.querySelector('#refresh').onclick = function() {
+	F5();
+}
 
 function listhidden() {
 	document.querySelector("#friendlist_son").style.display = 'none';
@@ -244,19 +268,7 @@ document.querySelector('#change').onclick = function(e) {
 document.addEventListener("keydown", function(e) {
 	if (e.keyCode == 116) {
 		e.preventDefault();
-		$.ajax({
-			type: "GET",
-			url: url + '/logout',
-			dataType: 'json',
-			timeout: 1000,
-			success: function() {
-				document.querySelector("#main").style.display = 'none'; //登出成功后隐藏界面
-				location.reload(true); //刷新页面
-			},
-			error: function() {
-				location.reload(true);
-			}
-		});
+		F5();
 		// location.reload(true); //要做的其他事情
 	}
 }, false);
@@ -267,10 +279,10 @@ document.querySelector('#barleft img').onmouseleave = function() {
 	this.src = 'img/聊天.png';
 }
 document.querySelector('#barmiddle img').onmouseenter = function() {
-	this.src = 'img/公众号.png';
+	this.src = 'img/公众号(1).png';
 }
 document.querySelector('#barmiddle img').onmouseleave = function() {
-	this.src = 'img/公众号 (1).png';
+	this.src = 'img/公众号.png';
 }
 document.querySelector('#barright img').onmouseenter = function() {
 	this.src = 'img/联系人信息(1).png';
@@ -290,6 +302,7 @@ function Lasthistory() {
 			chatlist[chatmark].removeEventListener("wheel", TopHistory);
 			chatlist[chatmark].style.top = '0px';
 			scrolllist[chatmark].children[0].style.top = '0px';
+			load = 1;
 			return;
 		}
 		var content = '';
@@ -300,16 +313,19 @@ function Lasthistory() {
 		chatlist[chatmark].innerHTML = content + chatlist[chatmark].innerHTML;
 		historymark[chatmark]++;
 		scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]); //更新滚动条长度
-		if (Height <= 20) return;
+		if (Height <= 20) {
+			load = 1;
+			return;
+		}
 		if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) { //这种情况是之前肯定有滚动条
 			chatlist[chatmark].style.top = Height - chatlist[chatmark].scrollHeight +
 				'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
 			var target = -(scrolllist[chatmark].children[0].offsetHeight /
 				chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight);
-			animate(scrolllist[chatmark].children[0], target, 3, 'top');
+			animate(scrolllist[chatmark].children[0], target, 4, 'top');
 		} //回到上一次滚动地方
 		load = 1;
-	}, 200)
+	}, 300)
 }
 
 function Lasthistoryson() {
@@ -333,8 +349,8 @@ function Lasthistoryson() {
 	}
 }
 document.querySelector('#emojicontain').onclick = function(e) {
-	if (e.target.getAttribute("mark"))
-		document.querySelector('#chattext').value += e.target.getAttribute("mark");
+	if (e.target.getAttribute("marks"))
+		document.querySelector('#chattext').value += e.target.getAttribute("marks");
 	document.querySelector('#chattext').focus();
 	textlist[chatmark] = document.querySelector('#chattext').value;
 }
@@ -352,13 +368,9 @@ function TopHistory(e) {
 }
 document.onclick = function() {
 	document.querySelector('#login_out').style.display = 'none';
-	// setTimeout(function(){if(document.querySelector('#change').style.display =='block')
-	// document.querySelector('#change').style.display = 'none';},10);
-	// if(document.querySelector('#change').style.display =='none')
-	// return;
-	// else
 	document.querySelector('#change').style.display = 'none';
-	document.querySelector('#emojicontain').style.display = 'none'
+	document.querySelector('#emojicontain').style.display = 'none';
+	document.querySelector('#textmenu').style.display = 'none';
 }
 
 function RecordBefore() {
@@ -376,9 +388,13 @@ function Relist() { //给消息排序,记得写一个排序函数 记录顺序
 	if (localStorage.getItem("record") == undefined) return;
 	var record = localStorage.getItem("record");
 	var mark = record.split("!");
-	for (i = marklist.length - 1; i >= 0; i--) {
+	for (i = mark.length - 1; i >= 0; i--) {
 		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);
 	}
+	for (i = 0; i < marklist.length - mark.length; i++) {
+		friendlist_son.removeChild(friendlist_son.lastElementChild)
+	}
+	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 }
 $.ajax({
 	type: "GET", //data 传送数据类型。get 传递
@@ -404,15 +420,32 @@ $.ajax({
 		}
 		document.querySelector('#middlelist').innerHTML = newscontent;
 		document.querySelector('#middlelist').onclick = function(e) {
-			document.querySelector('#frame').src = e.target.getAttribute("link");
+			document.querySelector('#iframe').src = e.target.getAttribute("link");
 		}
-		document.querySelector('#frame').src = document.querySelector('#middlelist').firstElementChild.firstElementChild.getAttribute(
+		document.querySelector('#iframe').src = document.querySelector('#middlelist').firstElementChild.firstElementChild.getAttribute(
 			"link");
 		var midlist = document.querySelector('#middlelist');
 		var midson = document.querySelector('#middlescroll_son');
-		scrollfun(document.querySelector('#middlelist'),document.querySelector('#middlescroll_son')); 
+		scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
 	}
 })
+animate(document.querySelector('#login_contain'),document.querySelector('body').offsetHeight/2-document.querySelector('#login_contain').offsetHeight/2,10,'top')
+function F5() {
+	$.ajax({
+		type: "GET",
+		url: url + '/logout',
+		dataType: 'json',
+		timeout: 1000,
+		success: function() {
+			document.querySelector("#main").style.display = 'none'; //登出成功后隐藏界面
+			location.reload(true); //刷新页面
+		},
+		error: function() {
+			location.reload(true);
+		}
+	});
+}
+
 function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 	if (friendlists.scrollHeight <= friendlists.parentNode.offsetHeight) return;
 	var scroll_scale = friendlists.scrollHeight / friendlists.parentNode.offsetHeight; //设置比例 一定要加var 不然会有bug!
