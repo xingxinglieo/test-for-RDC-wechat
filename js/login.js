@@ -306,10 +306,10 @@ function Lasthistory() {
 				'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
 			var target = -(scrolllist[chatmark].children[0].offsetHeight /
 				chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight);
-			animate(scrolllist[chatmark].children[0], target, 5, 'top');
+			animate(scrolllist[chatmark].children[0], target, 3, 'top');
 		} //回到上一次滚动地方
 		load = 1;
-	}, 400)
+	}, 200)
 }
 
 function Lasthistoryson() {
@@ -408,10 +408,13 @@ $.ajax({
 		}
 		document.querySelector('#frame').src = document.querySelector('#middlelist').firstElementChild.firstElementChild.getAttribute(
 			"link");
+		var midlist = document.querySelector('#middlelist');
+		var midson = document.querySelector('#middlescroll_son');
+		scrollfun(document.querySelector('#middlelist'),document.querySelector('#middlescroll_son')); 
 	}
 })
 function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
-	if (friendlists.offsetHeight <= friendlists.parentNode.offsetHeight) return;
+	if (friendlists.scrollHeight <= friendlists.parentNode.offsetHeight) return;
 	var scroll_scale = friendlists.scrollHeight / friendlists.parentNode.offsetHeight; //设置比例 一定要加var 不然会有bug!
 	scroll_son.parentNode.style.height = friendlists.parentNode.offsetHeight + 'px'; //设置滚动父元素高度
 	scroll_son.style.height = friendlists.parentNode.offsetHeight / scroll_scale + 'px'; //设置滚动子元素高度

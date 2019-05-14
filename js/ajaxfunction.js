@@ -80,8 +80,6 @@ function getList() {
 			var srcoll_son = document.querySelector('#srcoll_son'); //左滚动条
 			var rightlist = document.querySelector("#rightlist"); //右边
 			var rightscroll_son = document.querySelector('#rightcscroll_son');
-			var midlist = document.querySelector('#middlelist');
-			var midson = document.querySelector('#middlescroll_son');
 			marklist = []; //存储左栏
 			chatlist = []; //存储聊天窗口
 			textlist = []; //储存内容
@@ -101,7 +99,7 @@ function getList() {
 			rightlist.innerHTML = rightcontent; //详情信息列表的内容插入
 			scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 			scrollfun(rightlist, rightscroll_son);
-			scrollfun(midlist,midson);	
+			scrollfun(document.querySelector('#middlelist'),document.querySelector('#middlescroll_son'));
 			for (i = 0; i < friendchat.length; i++) { //这里是创造窗口对象
 				chatlist[i] = document.createElement('div');
 				scrolllist[i] = document.createElement('div');
