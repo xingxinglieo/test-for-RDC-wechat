@@ -385,9 +385,15 @@ function RecordBefore() {
 }
 
 function Relist() { //给消息排序,记得写一个排序函数 记录顺序
-	if (localStorage.getItem("record") == undefined) return;
+	console.log(myID,localStorage.getItem("myid"));
+	if (localStorage.getItem("record") == undefined||localStorage.getItem("myid")!=(myID+'')) {
+	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
+	localStorage.setItem("myid",myID);
+	return;}
+	localStorage.setItem("myid",myID);
 	var record = localStorage.getItem("record");
 	var mark = record.split("!");
+	console.log(1000);
 	for (i = mark.length - 1; i >= 0; i--) {
 		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);
 	}
