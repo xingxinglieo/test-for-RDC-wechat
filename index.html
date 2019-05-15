@@ -11,6 +11,7 @@
 				border: none;
 
 			}
+
 			h1,
 			h2 {
 				/* display: inline-block; */
@@ -75,13 +76,13 @@
 			<form id="login_message">
 				<input type="text" id="login_account" placeholder="请输入账号" />
 				<input type="password" id="login_password" placeholder="请输入密码" />
-				<div id="login_tip"  ></div>
+				<div id="login_tip"></div>
 				<div id="remember_box" style="padding-left:27px;">
-                <input type="checkbox" value="remember-me" id="remember" checked>
-                <label for="remember-password-checkbox">
-                    Remember me
-                </label>
-            </div>
+					<input type="checkbox" value="remember-me" id="remember" checked>
+					<label for="remember-password-checkbox">
+						Remember me
+					</label>
+				</div>
 				<input type="button" value="登录" id="login_btn" />
 			</form>
 		</div>
@@ -95,11 +96,21 @@
 		</section>
 		<!--背景部分-->
 		<div id="main" style="width: 1003.78px;height:731.6px;visibility:hidden;">
-			<div id="panel" onselectstart="return false;">
+			<div id="panel" onselectstart="return false;" style="position: relative;">
+				<div id="souresult">
+				</div>
+		
 				<div id="header" onselectstart="return false;" style="white-space: nowrap;">
 					<img src="img/联系人(1).png" style="height: 54px;width: 54px;padding-right: 9.625px;" onselectstart="return false;">
-					<div style="display: inline-block;white-space:nowrap;text-overflow: ellipsis;overflow: hidden;width:55%;" onselectstart="return false;">
-						<h4 id="myname" style="float:left;color: white;height: 54px;width: 100%;line-height: 30px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;" onselectstart="return false;"></h4>
+					<div style="display: inline-block;white-space:nowrap;text-overflow: ellipsis;overflow: hidden;width:55%;"
+					 onselectstart="return false;">
+						<h4 id="myname" style="float:left;color: white;height: 32px;width: 100%;line-height: 30px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"
+						 onselectstart="return false;"></h4>
+						<div style="width: 85%;height: 14px;float: left;background-color:rgba(255,255,255,0.1);border-radius: 9px;padding: 2px 9px;font-size:12px ;">
+							<div style="display: inline-block;vertical-align: top;background-image: url(img/搜索.png);background-repeat: no-repeat;background-size: cover;height: 14px;width: 14px;">
+							</div>
+							<input type="text" id="sou" placeholder="昵称搜索" style="width: 97px;height: 14px;;background-color: transparent;color: white;padding: 0px;font-size:10px;vertical-align: super;" />
+						</div>
 					</div>
 					<a href="javascript:;" id="menu" style="background-image: url(img/菜单.png);"></a>
 					<div id="login_out">
@@ -108,11 +119,22 @@
 							</div>
 							<p>修改信息</p>
 						</div>
+						<div class="out" id="music">
+							<div class="out_icon" style="background-image:url(img/关闭声音.png);">
+							</div>
+							<p>关闭声音</p>
+						</div>
+						<div class="out" id="notice">
+							<div class="out_icon" style="background-image:url(img/关闭通知.png);">
+							</div>
+							<p>关闭通知</p>
+						</div>
 						<div class="out" id="outl">
 							<div class="out_icon" style="background-image:url(img/电源.png);">
 							</div>
 							<p>退出登录</p>
 						</div>
+
 					</div>
 				</div>
 				<div id="bar">
@@ -141,187 +163,76 @@
 				<div id="content_contain">
 					<div id="messagedetail" style="width: 100%;height: 100%;position:absolute;">
 					</div>
-					<iframe id="iframe"  style="width: 100%;height: 100%;position:absolute;"></iframe>
+					<iframe id="iframe" style="width: 100%;height: 100%;position:absolute;background-image:url(img/草莓.png);background-repeat: no-repeat;background-position: center;"></iframe>
 					<div id="chatcontain" style="width: 100%;height: 100%;position:absolute;padding:0px 15px;box-sizing: border-box;">
 						<div id="chat_top" class="letmiddle" style="color: black;"></div>
 						<div style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;margin-top:2px;">
-							<div id="yanchi" >	
+							<div id="yanchi">
 							</div>
 							<span id="lasthistory">滚动至顶部或点击查看前十条消息</span>
-							</div>
+						</div>
 						<div id="chat_content">
 						</div>
 						<div id="historybar" style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;border-top:1px solid #c3c3c3;margin:18px 0px;">
 							<div id="emojicontain">
-								<span class="emoji" marks="😂">😂</span>
-								<span class="emoji" marks="😃">😃</span>
-								<span class="emoji" marks="😄">😄</span>
-								<span class="emoji" marks="😅">😅</span>
-								<span class="emoji" marks="😆">😆</span>
-								<span class="emoji" marks="😉">😉</span>
-								<span class="emoji" marks="😊">😊</span>
-								<span class="emoji" marks="😋">😋</span>
-								<span class="emoji" marks="😎">😎</span>
-								<span class="emoji" marks="😍">😍</span>
-								<span class="emoji" marks="😘">😘</span>
-								<span class="emoji" marks="😗">😗</span>
-								<span class="emoji" marks="😙">😙</span>
-								<span class="emoji" marks="😇">😇</span>
-								<span class="emoji" marks="😀">😀</span>
-								<span class="emoji" marks="😁">😁</span>
-								<span class="emoji" marks="😐">😐</span>
-								<span class="emoji" marks="😑">😑</span>
-								<span class="emoji" marks="😶">😶</span>
-								<span class="emoji" marks="😏">😏</span>
-								<span class="emoji" marks="😣">😣</span>
-								<span class="emoji" marks="😥">😥</span>
-								<span class="emoji" marks="😮">😮</span>
-								<span class="emoji" marks="😯">😯</span>
-								<span class="emoji" marks="😪">😪</span>
-								<span class="emoji" marks="😫">😫</span>
-								<span class="emoji" marks="😴">😴</span>
-								<span class="emoji" marks="😌">😌</span>
-								<span class="emoji" marks="😛">😛</span>
-								<span class="emoji" marks="😜">😜</span>
-								<span class="emoji" marks="😝">😝</span>
-								<span class="emoji" marks="😒">😒</span>
-								<span class="emoji" marks="😓">😓</span>
-								<span class="emoji" marks="😔">😔</span>
-								<span class="emoji" marks="😕">😕</span>
-								<span class="emoji" marks="😲">😲</span>
-								<span class="emoji" marks="😷">😷</span>
-								<span class="emoji" marks="😖">😖</span>
-								<span class="emoji" marks="😞">😞</span>
-								<span class="emoji" marks="😟">😟</span>
-								<span class="emoji" marks="😤">😤</span>
-								<span class="emoji" marks="😢">😢</span>
-								<span class="emoji" marks="😭">😭</span>
-								<span class="emoji" marks="😦">😦</span>
-								<span class="emoji" marks="😧">😧</span>
-								<span class="emoji" marks="😨">😨</span>
-								<span class="emoji" marks="😬">😬</span>
-								<span class="emoji" marks="😰">😰</span>
-								<span class="emoji" marks="😱">😱</span>
-								<span class="emoji" marks="😳">😳</span>
-								<span class="emoji" marks="😵">😵</span>
-								<span class="emoji" marks="😡">😡</span>
-								<span class="emoji" marks="🙅">🙅</span>
-								<span class="emoji" marks="💪">💪</span>
-								<span class="emoji" marks="👈">👈</span>
-								<span class="emoji" marks="👉">👉</span>
-								<span class="emoji" marks="☝">☝ </span>
-								<span class="emoji" marks="👆">👆 </span>
-								<span class="emoji" marks="👇">👇 </span>
-								<span class="emoji" marks="✌">✌ </span>
-								<span class="emoji" marks="✋">✋ </span>
-								<span class="emoji" marks="👌">👌 </span>
-								<span class="emoji" marks="👍">👍</span>
-								<span class="emoji" marks="👎">👎</span>
-								<span class="emoji" marks="✊">✊ </span>
-								<span class="emoji" marks="👊">👊</span>
-								<span class="emoji" marks="👋">👋</span>
-								<span class="emoji" marks="👏">👏</span>
-								<span class="emoji" marks="👐">👐</span>
-								<span class="emoji" marks="💪">💪</span>
-								<span class="emoji" marks="👈">👈</span>
-								<span class="emoji" marks="👉">👉</span>
-								<span class="emoji" marks="☝">☝ </span>
-								<span class="emoji" marks="👆">👆 </span>
-								<span class="emoji" marks="👇">👇 </span>
-								<span class="emoji" marks="✌">✌ </span>
-								<span class="emoji" marks="✋">✋ </span>
-								<span class="emoji" marks="👌">👌 </span>
-								<span class="emoji" marks="👍">👍</span>
-								<span class="emoji" marks="👎">👎</span>
-								<span class="emoji" marks="🍇">🍇</span>
-								<span class="emoji" marks="🍈">🍈</span>
-								<span class="emoji" marks="🍉">🍉</span>
-								<span class="emoji" marks="🍊">🍊</span>
-								<span class="emoji" marks="🍋">🍋</span>
-								<span class="emoji" marks="🍌">🍌</span>
-								<span class="emoji" marks="🍍">🍍</span>
-								<span class="emoji" marks="🍎">🍎</span>
-								<span class="emoji" marks="🍏">🍏</span>
-								<span class="emoji" marks="🍐">🍐</span>
-								<span class="emoji" marks="🍑">🍑</span>
-								<span class="emoji" marks="🍒">🍒</span>
-								<span class="emoji" marks="🍓">🍓</span>
-								<span class="emoji" marks="🍅">🍅</span>
-								<span class="emoji" marks="🍆">🍆</span>
-								<span class="emoji" marks="🌽">🌽</span>
-								<span class="emoji" marks="🍄">🍄</span>
-								<span class="emoji" marks="🌰">🌰</span>
-								<span class="emoji" marks="🍞">🍞</span>
-								<span class="emoji" marks="🍖">🍖</span>
-								<span class="emoji" marks="🍗">🍗</span>
-								<span class="emoji" marks="🍔">🍔</span>
-								<span class="emoji" marks="🍟">🍟</span>
-								<span class="emoji" marks="🍕">🍕 </span>
-								<span class="emoji" marks="🍳">🍳</span>
-								<span class="emoji" marks="🍲">🍲</span>
-								<span class="emoji" marks="🍱">🍱</span>
-								<span class="emoji" marks="🍘">🍘</span>
-								<span class="emoji" marks="🍙">🍙</span>
-								<span class="emoji" marks="🍚">🍚</span>
-								<span class="emoji" marks="🍛">🍛</span>
-								<span class="emoji" marks="🍜">🍜</span>
-								<span class="emoji" marks="🍝">🍝</span>
-								<span class="emoji" marks="🍠">🍠</span>
-								<span class="emoji" marks="🍢">🍢</span>
-								<span class="emoji" marks="🍣">🍣</span>
-								<span class="emoji" marks="🍤">🍤</span>
-								<span class="emoji" marks="🍥">🍥</span>
-								<span class="emoji" marks="🍡">🍡</span>
-								<span class="emoji" marks="🍦">🍦 </span>
-								<span class="emoji" marks="🍧">🍧 </span>
-								<span class="emoji" marks="🍨">🍨</span>
-								<span class="emoji" marks="🍩">🍩</span>
-								<span class="emoji" marks="🍪">🍪</span>
-								<span class="emoji" marks="🎂">🎂</span>
-								<span class="emoji" marks="🍰">🍰</span>
-								<span class="emoji" marks="🍫"> 🍫</span>
-								<span class="emoji" marks="🍬">🍬</span>
-								<span class="emoji" marks="🍭">🍭</span>
-								<span class="emoji" marks="🍮">🍮</span>
-								<span class="emoji" marks="🍯">🍯</span>
-								<span class="emoji" marks="🍼"> 🍼 </span>
-								<span class="emoji" marks="☕">☕</span>
-								<span class="emoji" marks="🍵">🍵</span>
-								<span class="emoji" marks="🍶">🍶 </span>
-								<span class="emoji" marks="🍷"> 🍷 </span>
-								<span class="emoji" marks="🍸">🍸</span>
-								<span class="emoji" marks="🍹">🍹</span>
-								<span class="emoji" marks="🍺">🍺</span>
-								<span class="emoji" marks="🍻">🍻</span>
-								<span class="emoji" marks="🍴"> 🍴 </span>
-								<span class="emoji" marks="🙈">🙈</span>
-								<span class="emoji" marks="🙉">🙉</span>
-								<span class="emoji" marks="🙊">🙊</span>
-								<span class="emoji" marks="🐵">🐵</span>
-								<span class="emoji" marks="🐶">🐶</span>
-								<span class="emoji" marks="🐕">🐕</span>
-								<span class="emoji" marks="🐺">🐺</span>
-								<span class="emoji" marks="🐱">🐱</span>
-								<span class="emoji" marks="😿">😿</span>
-								<span class="emoji" marks="😾">😾</span>
-								<span class="emoji" marks="🐈">🐈</span>
-								<span class="emoji" marks="🐯">🐯</span>
-								<span class="emoji" marks="🐅">🐅</span>
-								<span class="emoji" marks="🐴">🐴</span>
-								<span class="emoji" marks="🐎">🐎</span>
-								<span class="emoji" marks="🐮">🐮</span>
-								<span class="emoji" marks="🐷">🐷</span>
-								<span class="emoji" marks="🐗">🐗</span>
-								<span class="emoji" marks="🐽">🐽</span>
-								<span class="emoji" marks="🐑">🐑</span>
-								<span class="emoji" marks="🐭">🐭</span>
-								<span class="emoji" marks="🐰">🐰</span>
-								<span class="emoji" marks="🐼">🐼</span>
-								<span class="emoji" marks="🐓">🐓</span>
-								<span class="emoji" marks="🐸">🐸</span>
-								<span class="emoji" marks="🐳">🐳</span>
+								<span class="emoji" marks="😂">😂</span><span class="emoji" marks="😃">😃</span><span class="emoji" marks="😄">😄</span><span
+								 class="emoji" marks="😅">😅</span><span class="emoji" marks="😆">😆</span><span class="emoji" marks="😉">😉</span><span
+								 class="emoji" marks="😊">😊</span><span class="emoji" marks="😋">😋</span><span class="emoji" marks="😎">😎</span><span
+								 class="emoji" marks="😍">😍</span><span class="emoji" marks="😘">😘</span><span class="emoji" marks="😗">😗</span><span
+								 class="emoji" marks="😙">😙</span><span class="emoji" marks="😇">😇</span><span class="emoji" marks="😀">😀</span><span
+								 class="emoji" marks="😁">😁</span><span class="emoji" marks="😐">😐</span><span class="emoji" marks="😑">😑</span><span
+								 class="emoji" marks="😶">😶</span><span class="emoji" marks="😏">😏</span><span class="emoji" marks="😣">😣</span><span
+								 class="emoji" marks="😥">😥</span><span class="emoji" marks="😮">😮</span><span class="emoji" marks="😯">😯</span><span
+								 class="emoji" marks="😪">😪</span><span class="emoji" marks="😫">😫</span><span class="emoji" marks="😴">😴</span><span
+								 class="emoji" marks="😌">😌</span><span class="emoji" marks="😛">😛</span><span class="emoji" marks="😜">😜</span><span
+								 class="emoji" marks="😝">😝</span><span class="emoji" marks="😒">😒</span><span class="emoji" marks="😓">😓</span><span
+								 class="emoji" marks="😔">😔</span><span class="emoji" marks="😕">😕</span><span class="emoji" marks="😲">😲</span><span
+								 class="emoji" marks="😷">😷</span><span class="emoji" marks="😖">😖</span><span class="emoji" marks="😞">😞</span><span
+								 class="emoji" marks="😟">😟</span><span class="emoji" marks="😤">😤</span><span class="emoji" marks="😢">😢</span><span
+								 class="emoji" marks="😭">😭</span><span class="emoji" marks="😦">😦</span><span class="emoji" marks="😧">😧</span><span
+								 class="emoji" marks="😨">😨</span><span class="emoji" marks="😬">😬</span><span class="emoji" marks="😰">😰</span><span
+								 class="emoji" marks="😱">😱</span><span class="emoji" marks="😳">😳</span><span class="emoji" marks="😵">😵</span><span
+								 class="emoji" marks="😡">😡</span><span class="emoji" marks="🙅">🙅</span><span class="emoji" marks="💪">💪</span><span
+								 class="emoji" marks="👈">👈</span><span class="emoji" marks="👉">👉</span><span class="emoji" marks="☝">☝</span><span
+								 class="emoji" marks="👆">👆</span><span class="emoji" marks="👇">👇</span><span class="emoji" marks="✌">✌</span><span
+								 class="emoji" marks="✋">✋</span><span class="emoji" marks="👌">👌</span><span class="emoji" marks="👍">👍</span><span
+								 class="emoji" marks="👎">👎</span><span class="emoji" marks="✊">✊</span><span class="emoji" marks="👊">👊</span><span
+								 class="emoji" marks="👋">👋</span><span class="emoji" marks="👏">👏</span><span class="emoji" marks="👐">👐</span><span
+								 class="emoji" marks="💪">💪</span><span class="emoji" marks="👈">👈</span><span class="emoji" marks="👉">👉</span><span
+								 class="emoji" marks="☝">☝</span><span class="emoji" marks="👆">👆</span><span class="emoji" marks="👇">👇</span><span
+								 class="emoji" marks="✌">✌</span><span class="emoji" marks="✋">✋</span><span class="emoji" marks="👌">👌</span><span
+								 class="emoji" marks="👍">👍</span><span class="emoji" marks="👎">👎</span><span class="emoji" marks="🍇">🍇</span><span
+								 class="emoji" marks="🍈">🍈</span><span class="emoji" marks="🍉">🍉</span><span class="emoji" marks="🍊">🍊</span><span
+								 class="emoji" marks="🍋">🍋</span><span class="emoji" marks="🍌">🍌</span><span class="emoji" marks="🍍">🍍</span><span
+								 class="emoji" marks="🍎">🍎</span><span class="emoji" marks="🍏">🍏</span><span class="emoji" marks="🍐">🍐</span><span
+								 class="emoji" marks="🍑">🍑</span><span class="emoji" marks="🍒">🍒</span><span class="emoji" marks="🍓">🍓</span><span
+								 class="emoji" marks="🍅">🍅</span><span class="emoji" marks="🍆">🍆</span><span class="emoji" marks="🌽">🌽</span><span
+								 class="emoji" marks="🍄">🍄</span><span class="emoji" marks="🌰">🌰</span><span class="emoji" marks="🍞">🍞</span><span
+								 class="emoji" marks="🍖">🍖</span><span class="emoji" marks="🍗">🍗</span><span class="emoji" marks="🍔">🍔</span><span
+								 class="emoji" marks="🍟">🍟</span><span class="emoji" marks="🍕">🍕</span><span class="emoji" marks="🍳">🍳</span><span
+								 class="emoji" marks="🍲">🍲</span><span class="emoji" marks="🍱">🍱</span><span class="emoji" marks="🍘">🍘</span><span
+								 class="emoji" marks="🍙">🍙</span><span class="emoji" marks="🍚">🍚</span><span class="emoji" marks="🍛">🍛</span><span
+								 class="emoji" marks="🍜">🍜</span><span class="emoji" marks="🍝">🍝</span><span class="emoji" marks="🍠">🍠</span><span
+								 class="emoji" marks="🍢">🍢</span><span class="emoji" marks="🍣">🍣</span><span class="emoji" marks="🍤">🍤</span><span
+								 class="emoji" marks="🍥">🍥</span><span class="emoji" marks="🍡">🍡</span><span class="emoji" marks="🍦">🍦</span><span
+								 class="emoji" marks="🍧">🍧</span><span class="emoji" marks="🍨">🍨</span><span class="emoji" marks="🍩">🍩</span><span
+								 class="emoji" marks="🍪">🍪</span><span class="emoji" marks="🎂">🎂</span><span class="emoji" marks="🍰">🍰</span><span
+								 class="emoji" marks="🍫">🍫</span><span class="emoji" marks="🍬">🍬</span><span class="emoji" marks="🍭">🍭</span><span
+								 class="emoji" marks="🍮">🍮</span><span class="emoji" marks="🍯">🍯</span><span class="emoji" marks="🍼">🍼</span><span
+								 class="emoji" marks="☕">☕</span><span class="emoji" marks="🍵">🍵</span><span class="emoji" marks="🍶">🍶</span><span
+								 class="emoji" marks="🍷">🍷</span><span class="emoji" marks="🍸">🍸</span><span class="emoji" marks="🍹">🍹</span><span
+								 class="emoji" marks="🍺">🍺</span><span class="emoji" marks="🍻">🍻</span><span class="emoji" marks="🍴">🍴</span><span
+								 class="emoji" marks="🙈">🙈</span><span class="emoji" marks="🙉">🙉</span><span class="emoji" marks="🙊">🙊</span><span
+								 class="emoji" marks="🐵">🐵</span><span class="emoji" marks="🐶">🐶</span><span class="emoji" marks="🐕">🐕</span><span
+								 class="emoji" marks="🐺">🐺</span><span class="emoji" marks="🐱">🐱</span><span class="emoji" marks="😿">😿</span><span
+								 class="emoji" marks="😾">😾</span><span class="emoji" marks="🐈">🐈</span><span class="emoji" marks="🐯">🐯</span><span
+								 class="emoji" marks="🐅">🐅</span><span class="emoji" marks="🐴">🐴</span><span class="emoji" marks="🐎">🐎</span><span
+								 class="emoji" marks="🐮">🐮</span><span class="emoji" marks="🐷">🐷</span><span class="emoji" marks="🐗">🐗</span><span
+								 class="emoji" marks="🐽">🐽</span><span class="emoji" marks="🐑">🐑</span><span class="emoji" marks="🐭">🐭</span><span
+								 class="emoji" marks="🐰">🐰</span><span class="emoji" marks="🐼">🐼</span><span class="emoji" marks="🐓">🐓</span><span
+								 class="emoji" marks="🐸">🐸</span><span class="emoji" marks="🐳">🐳</span>
 							</div>
-							<span id="emojibar" style="float:left;margin-left:5px;font-size:16px">😃</span>		
+							<span id="emojibar" style="float:left;margin-left:5px;font-size:16px">😃</span>
 							<span id="history">查看全部历史消息</span>
 							<div id="newtip" style="display: none;position: absolute;top: -232%;left: 20px;max-width: 240px;padding:0px 5px;line-height: 21px;min-height: 21px;background-color:#6699ff;word-wrap: break-word;border-radius: 10px;color:white">
 								<div id="newtip_son"></div>
@@ -329,7 +240,7 @@
 						</div>
 						<textarea spellcheck="false" id="chattext" wrap="hard" style="resize: none;"></textarea>
 						<div style="height: 40px;position: relative;">
-							
+
 							<input type="button" id="textbtn" value="发送" />
 							<div id="hang" style="float: right;color: gray;font-size:10px;    position: absolute;right: 115px;bottom: 3px;">
 								按ctr+enter键换行
@@ -360,10 +271,18 @@
 				 value="" placeholder="输入邮箱" /><br />
 				<input type="button" id="csubmit" value="提交" />
 			</div>
+			
 		</div>
-
-		<div id="mask" style="position: absolute;top: 50%;left:50% ;background-color: rgba(255,255,255,0.7);z-index: 10;display: none;">
-			<div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);background-color: rgba(255, 255, 255, 0.5);
+		<div id="chatmessege" style="width: 200px;height: 330px;display: none;position: absolute;background-color: #fff;z-index:3;border-radius: 3px;box-shadow: 1px 1px 10px 1px gray;">
+			<div style="width: 100%;height: 200px;background-image: url(img/饼干.png);background-position: center;background-repeat:no-repeat ;">
+			</div>
+			<div id="chatmessegexx" style="padding: 18px;">
+				<div id="chatmessege_one" style="line-height: 45px;"></div>
+				<div id="chatmessege_two" style="color: gray;font-size: 10px;"></div>
+			</div>
+		</div>
+		<div id="mask" style="position: absolute;height: 100%;width:100% ;background-color:rgba(220, 234, 245, 0.8);z-index: 10;display: none;">
+			<div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);background-color: rgba(255, 255, 255, 0.8);
 				width: 380px;height: 235px;box-shadow: 0 2px 10px #999;border-radius: 5px;">
 				<p id="alert" style="font-size: 20px;"></p>
 				<input type="button" id="mask_btn" value="确定" />
@@ -371,10 +290,10 @@
 		</div>
 		<div id="textmenu">
 			<div id="clearlist" class="rightclick">
-			关闭此聊天
+				关闭此聊天
 			</div>
 			<div id="refresh" class="rightclick">
-			刷新
+				刷新
 			</div>
 		</div>
 	</body>

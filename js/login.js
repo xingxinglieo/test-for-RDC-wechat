@@ -19,7 +19,7 @@ var content_left =
 //content+timetip+right/left+内容+content_five2;
 message_content = '';
 var message_one =
-	'<div class="message_contain"><div class="ring letmiddle">详细信息</div><div class="ringg" style="background-image: url(img/friend.png);"></div><p class="nickname">'
+	'<div class="message_contain"><div class="ring letmiddle">详细信息</div><div class="ringg" style="background-image: url(img/联系人.png);"></div><p class="nickname">'
 var message_two = '</p><p class="introdution">签名:    ';
 var message_three = '</p><p class="letmiddle age">年龄:    ';
 var message_four = '</p><p class="letmiddle address">地址:    ';
@@ -48,7 +48,6 @@ if (localStorage.getItem("status") == "true") {
 
 chatmark = 0;
 friendlist = document.querySelector('#friendlist'); //这个是包含三个容器的
-//使list高度自适应
 login_btn.onclick = function() {
 
 	$.ajaxSetup({
@@ -93,7 +92,11 @@ document.querySelector('#chattext').addEventListener("keydown", function(e) {
 		if (ctr == 0) {
 			document.querySelector('#textbtn').click();
 			e.preventDefault();
-		} else this.value += '\n'
+		} else {
+			var position = this.selectionStart;
+			var newvalue = insertStr(this.value, position, '\n');
+			this.value = newvalue;
+		}
 	}
 	textlist[chatmark] = this.value;
 })
@@ -133,9 +136,13 @@ document.querySelector('#textbtn').onclick = function() {
 			scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
 			scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
 				0].offsetHeight + 'px';
-			if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight)
-				chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight +
-				'px'; //底部重置
+			if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) {
+				animate(scrolllist[chatmark].children[0], chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
+					0].offsetHeight, 30, 'top');
+				var speed = chatlist[chatmark].parentNode.offsetHeight / chatlist[chatmark].scrollHeight;
+				animate(chatlist[chatmark], chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight, 15 *
+					speed, 'top');
+			}
 			// document.querySelector('#rotate').style.display = 'none';
 
 		},
@@ -156,6 +163,12 @@ document.querySelector("#csubmit").onclick = function() {
 	var j = document.querySelector('#caddress').value;
 	var k = document.querySelector('#cintroduction').value;
 	var l = document.querySelector('#cmailbox').value;
+	var exp_age =/^\d{1,2}$/;//验证年龄为1-2位数字
+	var exp_mail =/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;//验证邮箱
+	if(!exp_age.test(h)||!exp_mail.test(l)){
+		maskshow('您的填写有误');
+		return;
+	}
 	$.ajax({
 		type: "POST", //data 传送数据类型。post 传递
 		url: url + '/updateUserInfor',
@@ -197,8 +210,9 @@ document.querySelector('#outl').onclick = out;
 document.querySelector('#history').onclick = function() {
 	getChathistory(chatmark);
 }
-document.querySelector('#mask_btn').onclick = function() {
+document.querySelector('#mask_btn').onclick = function(e) {
 	document.querySelector('#mask').style.display = 'none';
+	e.stopPropagation()
 }
 document.querySelector('#xx').onclick = function() {
 	document.querySelector("#change").style.display = 'none';
@@ -224,9 +238,11 @@ document.querySelector('#barright').onclick = function() {
 }
 document.querySelector('#newtip').onclick = function() {
 	this.style.display = 'none';
-	scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
-		0].offsetHeight + 'px';
-	chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight + 'px'; //点击后回滚底部
+	animate(scrolllist[chatmark].children[0], chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
+		0].offsetHeight, 30, 'top');
+	var speed = chatlist[chatmark].parentNode.offsetHeight / chatlist[chatmark].scrollHeight;
+	animate(chatlist[chatmark], chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight, 15 * speed,
+		'top'); //点击后回滚底部
 	marklist[chatmark].children[2].style.display = 'none';
 }
 document.oncontextmenu = function(e) {
@@ -322,7 +338,7 @@ function Lasthistory() {
 				'px'; //记录加载之前的总高 用前总高-现总高 就是负增量 也就是 需要的top值(使保持原位置不动)
 			var target = -(scrolllist[chatmark].children[0].offsetHeight /
 				chatlist[chatmark].parentNode.offsetHeight) * (Height - chatlist[chatmark].scrollHeight);
-			animate(scrolllist[chatmark].children[0], target, 4, 'top');
+			animates(scrolllist[chatmark].children[0], target, 1, 'top', Height);
 		} //回到上一次滚动地方
 		load = 1;
 	}, 300)
@@ -348,11 +364,16 @@ function Lasthistoryson() {
 		chatlist[chatmark].style.top = chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight + 'px'; //回到底部
 	}
 }
+document.querySelector('#chattext').onblur = function() {
+	window.myblur = this.selectionStart;
+}
 document.querySelector('#emojicontain').onclick = function(e) {
-	if (e.target.getAttribute("marks"))
-		document.querySelector('#chattext').value += e.target.getAttribute("marks");
-	document.querySelector('#chattext').focus();
-	textlist[chatmark] = document.querySelector('#chattext').value;
+	if (e.target.getAttribute("marks")) {
+		var newvalue = insertStr(document.querySelector('#chattext').value, myblur, e.target.getAttribute("marks"));
+		document.querySelector('#chattext').value = newvalue;
+		document.querySelector('#chattext').focus();
+		textlist[chatmark] = document.querySelector('#chattext').value;
+	}
 }
 document.querySelector('#emojibar').onclick = function(e) {
 	document.querySelector('#emojicontain').style.display = 'block';
@@ -371,6 +392,7 @@ document.onclick = function() {
 	document.querySelector('#change').style.display = 'none';
 	document.querySelector('#emojicontain').style.display = 'none';
 	document.querySelector('#textmenu').style.display = 'none';
+	document.querySelector('#chatmessege').style.display = 'none';
 }
 
 function RecordBefore() {
@@ -385,15 +407,14 @@ function RecordBefore() {
 }
 
 function Relist() { //给消息排序,记得写一个排序函数 记录顺序
-	console.log(myID,localStorage.getItem("myid"));
-	if (localStorage.getItem("record") == undefined||localStorage.getItem("myid")!=(myID+'')) {
-	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
-	localStorage.setItem("myid",myID);
-	return;}
-	localStorage.setItem("myid",myID);
+	if (localStorage.getItem("record") == undefined || localStorage.getItem("myid") != (myID + '')) {
+		scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
+		localStorage.setItem("myid", myID);
+		return;
+	}
+	localStorage.setItem("myid", myID);
 	var record = localStorage.getItem("record");
 	var mark = record.split("!");
-	console.log(1000);
 	for (i = mark.length - 1; i >= 0; i--) {
 		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);
 	}
@@ -428,14 +449,14 @@ $.ajax({
 		document.querySelector('#middlelist').onclick = function(e) {
 			document.querySelector('#iframe').src = e.target.getAttribute("link");
 		}
-		document.querySelector('#iframe').src = document.querySelector('#middlelist').firstElementChild.firstElementChild.getAttribute(
-			"link");
 		var midlist = document.querySelector('#middlelist');
 		var midson = document.querySelector('#middlescroll_son');
 		scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
 	}
 })
-animate(document.querySelector('#login_contain'),document.querySelector('body').offsetHeight/2-document.querySelector('#login_contain').offsetHeight/2,10,'top')
+animate(document.querySelector('#login_contain'), document.querySelector('body').offsetHeight / 2 - document.querySelector(
+	'#login_contain').offsetHeight / 2, 10, 'top')
+
 function F5() {
 	$.ajax({
 		type: "GET",
@@ -450,6 +471,10 @@ function F5() {
 			location.reload(true);
 		}
 	});
+}
+
+function insertStr(soure, start, newStr) { //为字符串插入字符 其中soure为原字符串,start为将要插入字符的位置，newStr为要插入的字符   
+	return soure.slice(0, start) + newStr + soure.slice(start);
 }
 
 function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
@@ -516,3 +541,84 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 	};
 
 } //滚动结尾
+function animates(element, target, interval, direction, s) {
+	// 通过判断，保证页面上只有一个定时器在执行动画
+	if (element.timerId) {
+		clearInterval(element.timerId);
+		element.timerId = null;
+	}
+	if (direction == 'top') {
+		element.timerId = setInterval(function() {
+			// 步进  每次移动的距离
+			var step = 12;
+			// 盒子当前的位置
+			var current = element.offsetTop;
+			// 当从400 到 800  执行动画
+			// 当从800 到 400  不执行动画
+
+			// 判断如果当前位置 > 目标位置 此时的step  要小于0
+			if (current > target) {
+				step = -Math.abs(step);
+			}
+
+			// Math.abs(current - target)   <= Math.abs(step)
+			if (Math.abs(current - target) <= Math.abs(step)) {
+				// 让定时器停止
+				clearInterval(element.timerId);
+				// 让盒子到target的位置
+				element.style.top = target + 'px';
+				chatlist[chatmark].style.top = s - chatlist[chatmark].scrollHeight +
+					'px';
+				return;
+			}
+			// 移动盒子
+			current += step;
+			element.style.top = current + 'px';
+		}, interval);
+	}
+}
+
+function search(arr, chars) {
+	var charmark = [];
+	var j = 0;
+	for (i = 0; i < arr.length; i++) {
+		if (arr[i + ''].indexOf(chars) + 1) {
+			charmark[j] = i + '';
+			j++;
+		}
+	}
+	return charmark;
+}
+document.querySelector('#sou').onfocus = function() {
+	document.querySelector('#souresult').style.display = 'block';
+}
+document.querySelector('#sou').onblur = function() {
+	setTimeout(function() {
+		document.querySelector('#souresult').style.display = 'none';
+	}, 200)
+}
+document.querySelector('#sou').onkeyup = function() {
+	var markd = search(hisname, this.value);
+	document.querySelector('#souresult').innerHTML = '';
+	if (this.value == '') return;
+	if (markd.length == 0) {
+		var div = document.createElement("div");
+		div.className = 'searchson';
+		div.innerText = '无';
+		document.querySelector('#souresult').appendChild(div);
+		return;
+	}
+	for (i = 0; i < markd.length; i++) {
+		var div = document.createElement("div");
+		div.className = 'searchson';
+		div.innerText = hisname[markd[i]];
+		div.setAttribute("marks", markd[i]);
+		document.querySelector('#souresult').appendChild(div);
+	}
+}
+document.querySelector('#souresult').onclick = function(e) {
+	if (e.target.getAttribute("marks")) {
+		rightlist.children[e.target.getAttribute("marks")].click();
+		document.querySelector('#barright').click();
+	}
+};

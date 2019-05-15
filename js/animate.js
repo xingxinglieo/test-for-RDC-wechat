@@ -36,7 +36,7 @@ function animate(element, target, interval, direction) {
 	if (direction == 'top') {
 		element.timerId = setInterval(function() {
 			// 步进  每次移动的距离
-			var step = 10;
+			var step = 30;
 			// 盒子当前的位置
 			var current = element.offsetTop;
 			// 当从400 到 800  执行动画

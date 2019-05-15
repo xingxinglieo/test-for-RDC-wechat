@@ -2,7 +2,7 @@
 	width: 28%;
 	height: 100%;
 	float: left;
-	background:#fafafa;
+	background: #fafafa;
 	border-radius: 4px;
 }
 
@@ -12,7 +12,7 @@
 	z-index: 2;
 	border-radius: 5px;
 	display: none;
-	box-shadow:2px 2px 5px 2px gray;
+	box-shadow: 2px 2px 5px 2px gray;
 }
 
 .out {
@@ -55,9 +55,9 @@
 }
 
 #header {
-	position: relative;
 	padding: 18px 18px;
 	background-color: #00a2ff;
+	position: relative;
 }
 
 #myname {
@@ -105,11 +105,10 @@
 	left: 0;
 	top: 0;
 	width: auto;
+	height: 593px !important;
 	margin: 0;
 	overflow: hidden;
 	padding: 0;
-	
-
 
 }
 
@@ -129,10 +128,11 @@
 	top: 0px;
 	border-radius: 8px;
 	width: 10px;
-	background-color: rgba(204,204,204,0.1);
+	background-color: rgba(204, 204, 204, 0.1);
 }
-#srcoll:hover{
-	background-color: rgba(204,204,204,0.3);
+
+#srcoll:hover {
+	background-color: rgba(204, 204, 204, 0.3);
 }
 
 
@@ -141,74 +141,90 @@
 	top: 0px;
 	width: 10px;
 	border-radius: 8px;
-	background-color:rgba(108,110,113,0.2);
+	background-color: rgba(108, 110, 113, 0.2);
 }
-#scroll_son:hover{
-cursor: pointer;
-background-color: rgba(108,110,113,0.5);
+
+#scroll_son:hover {
+	cursor: pointer;
+	background-color: rgba(108, 110, 113, 0.5);
 }
+
 .chatscroll {
 	position: absolute;
 	right: 0px;
 	top: 0px;
 	border-radius: 8px;
 	width: 10px;
-	background-color: rgba(204,204,204,0.2);
+	background-color: rgba(204, 204, 204, 0.2);
 	/* display: none; */
 }
-.chatscroll:hover{
-	background-color: rgba(204,204,204,0.7);
+
+.chatscroll:hover {
+	background-color: rgba(204, 204, 204, 0.7);
 }
+
 .chatscroll_son {
 	position: absolute;
 	top: 0px;
 	width: 10px;
 	border-radius: 8px;
-	background-color: rgba(108,110,113,0.5);
-	
+	background-color: rgba(108, 110, 113, 0.5);
+
 }
 
 .chatscroll_son:hover {
 	cursor: pointer;
-	background-color: rgba(108,110,113,0.8);
+	background-color: rgba(108, 110, 113, 0.8);
 }
+
 #rightcscroll {
 	position: absolute;
 	right: 0px;
 	top: 0px;
 	border-radius: 8px;
 	width: 10px;
-	background-color: rgba(204,204,204,0.2);
+	background-color: rgba(204, 204, 204, 0.2);
 }
-#rightcscroll:hover{
-	background-color: rgba(204,204,204,0.7);
+
+#rightcscroll:hover {
+	background-color: rgba(204, 204, 204, 0.7);
 }
-#rightcscroll:hover > #rightcscroll_son{
-	background-color: rgba(108,110,113,0.5);
+
+#rightcscroll:hover>#rightcscroll_son {
+	background-color: rgba(108, 110, 113, 0.5);
 }
+
 #rightcscroll_son {
 	position: absolute;
 	top: 0px;
 	width: 10px;
 	border-radius: 8px;
-	background-color:rgba(108,110,113,0.2);
+	background-color: rgba(108, 110, 113, 0.2);
 }
 
 #rightcscroll_son:hover {
 	cursor: pointer;
-	background-color: rgba(108,110,113,0.5);
+	background-color: rgba(108, 110, 113, 0.5);
 }
-#middlescroll{
-	position: absolute;right: 0px;top: 0px;border-radius: 8px;width: 10px;background-color: rgb(204, 204, 204);
-	
+
+#middlescroll {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	border-radius: 8px;
+	width: 10px;
+	background-color: rgb(204, 204, 204);
+
 }
-#middlescroll_son{
-position: absolute;
-    top: 0px;
-    width: 10px;
-    border-radius: 8px;
-    background-color: #6c6e71;
+
+#middlescroll_son {
+	position: absolute;
+	top: 0px;
+	width: 10px;
+	border-radius: 8px;
+	background-color: #6c6e71;
 }
+
 .chat {
 	position: relative;
 	height: 56px;
@@ -220,23 +236,28 @@ position: absolute;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	visibility: visible;
-	transition:background-color 0.2s ease-in;
+	transition: background-color 0.2s ease-in;
 
 }
-.chat:hover{
-	background-color:#ececed !important;
-				
+
+.chat:hover {
+	background-color: #ececed !important;
+
 }
 
 .dot {
 	position: absolute;
-	top: 30px;
-	right: 20px;
-	width: 5px;
-	height: 5px;
-	border-radius: 50%;
-	background-color: red;
-	display: none;
+    top: 25px;
+    right: 20px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: skyblue;
+    color: white;
+    text-align: center;
+    line-height: 16px;
+    font-size: 12px;
+    display: none;
 }
 
 .friendhead {
@@ -257,10 +278,12 @@ position: absolute;
 	visibility: visible;
 
 }
-.right_chat:hover{
-	background-color:#ececed;
-	transition:background-color 0.1s ease-in;
+
+.right_chat:hover {
+	background-color: #ececed;
+	transition: background-color 0.1s ease-in;
 }
+
 .right_friendhead {
 	height: 30px;
 	width: 30px;
@@ -276,17 +299,21 @@ position: absolute;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-#middlelist h3:hover{
-	text-decoration:underline black;
-	cursor: pointer;
-}
-.middlelist_info{
-	color: #000000;
-}
-.middlelist_info:hover{
+
+#middlelist h3:hover {
 	text-decoration: underline black;
 	cursor: pointer;
 }
+
+.middlelist_info {
+	color: #000000;
+}
+
+.middlelist_info:hover {
+	text-decoration: underline black;
+	cursor: pointer;
+}
+
 .friendname {
 	color: black;
 	vertical-align: top;
@@ -305,12 +332,13 @@ position: absolute;
 	font-size: 14px;
 	white-space: nowrap;
 	overflow: hidden;
-    text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
 
 .chattip {
 	color: gray;
 	font-size: 10px;
+	line-height: 16px;
 }
 
 #content_contain {
@@ -318,13 +346,15 @@ position: absolute;
 	width: 100%;
 	position: absolute;
 }
-#three_contain{
+
+#three_contain {
 	height: 100%;
 	width: 72%;
 	float: left;
 	position: relative;
 	overflow: hidden;
 }
+
 .ring {
 	height: 40px;
 	line-height: 40px;
@@ -414,12 +444,14 @@ position: absolute;
 
 
 }
-.message_contain{
+
+.message_contain {
 	width: 100%;
-	height:100%;
+	height: 100%;
 	position: absolute;
-/* 	display: none; */
+	/* 	display: none; */
 }
+
 .introdution {
 	font-size: 12px;
 	color: #888;
@@ -435,7 +467,8 @@ position: absolute;
 	margin: 0 auto;
 	white-space: nowrap;
 }
-#newtip_son{
+
+#newtip_son {
 	position: absolute;
 	width: 7px;
 	height: 7px;
@@ -445,12 +478,42 @@ position: absolute;
 	right: 40%;
 	bottom: -14%;
 }
-#newtip:hover{
-				cursor: pointer;
-			}
-#newtip_son:hover{
-				cursor: pointer;
-			}
-#emojibar:hover{
+
+#newtip:hover {
+	cursor: pointer;
+}
+
+#newtip_son:hover {
+	cursor: pointer;
+}
+
+#emojibar:hover {
+	cursor: pointer;
+}
+
+#souresult {
+	position: absolute;
+	top: 76px;
+	z-index: 3;
+	left: 88px;
+	width: 130px;
+	background-color: rgba(108, 110, 113, 0.5);
+	border-radius: 3px;
+	display: none;
+	color: white;
+	max-height:140px;
+	overflow: auto;
+}
+
+.searchson {
+	width: 100%;
+	padding-left: 24px;
+	box-sizing: border-box;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.searchson:hover {
 	cursor: pointer;
 }
