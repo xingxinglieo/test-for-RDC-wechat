@@ -61,3 +61,25 @@ function animate(element, target, interval, direction) {
 		}, interval);
 	}
 }
+function drag(dom) {
+	var boxleft, boxtop;
+	var marked =false;
+	dom.addEventListener("mousedown", function(e) {
+		marked =true;
+		dom.style.cursor = 'move';
+		boxleft = e.pageX - dom.offsetLeft; //获取鼠标在盒子中横向位置
+		boxtop = e.pageY - dom.offsetTop; //获取鼠标在盒子中的枞向位置
+		document.addEventListener("mousemove",function(e) {
+			if (marked) {
+				dom.style.top = (e.pageY - boxtop) + 'px';
+				dom.style.left = (e.pageX - boxleft) + 'px';
+			}
+		}) 
+	})
+
+	dom.addEventListener("mouseup", function() {
+		marked = false;
+		dom.style.cursor = 'default';
+	})
+}
+

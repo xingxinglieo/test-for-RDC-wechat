@@ -9,9 +9,16 @@
 				margin: 0px;
 				/* border: 1px solid red; */
 				border: none;
+				-moz-user-select: none;
+				/* 火狐 */
+				-webkit-user-select: none;
+				/* 谷歌 */
+				-ms-user-select: none;
+				/* IE */
+				user-select: none;
 
 			}
-
+			
 			h1,
 			h2 {
 				/* display: inline-block; */
@@ -70,9 +77,9 @@
 		<link rel="stylesheet" type="text/css" href="css/right.css" />
 		<link rel="stylesheet" type="text/css" href="css/letf.css" />
 	</head>
-	<body id="body" style="overflow-y: hidden;">
+	<body id="body" style="overflow: hidden;">
 		<!--登录框部分-->
-		<div id="login_contain" style="z-index:1;">
+		<div id="login_contain" style="z-index:1;display: block;">
 			<form id="login_message">
 				<input type="text" id="login_account" placeholder="请输入账号" />
 				<input type="password" id="login_password" placeholder="请输入密码" />
@@ -95,21 +102,21 @@
 			</div>
 		</section>
 		<!--背景部分-->
-		<div id="main" style="width: 1003.78px;height:731.6px;visibility:hidden;">
+		<div id="main">
 			<div id="panel" onselectstart="return false;" style="position: relative;">
 				<div id="souresult">
 				</div>
-		
+
 				<div id="header" onselectstart="return false;" style="white-space: nowrap;">
 					<img src="img/联系人(1).png" style="height: 54px;width: 54px;padding-right: 9.625px;" onselectstart="return false;">
 					<div style="display: inline-block;white-space:nowrap;text-overflow: ellipsis;overflow: hidden;width:55%;"
 					 onselectstart="return false;">
 						<h4 id="myname" style="float:left;color: white;height: 32px;width: 100%;line-height: 30px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"
 						 onselectstart="return false;"></h4>
-						<div style="width: 85%;height: 14px;float: left;background-color:rgba(255,255,255,0.1);border-radius: 9px;padding: 2px 9px;font-size:12px ;">
+						<div style="width: 85%;height: 14px;float: left;background-color:rgba(255,255,255,0.6);border-radius: 9px;padding: 2px 9px;font-size:12px ;">
 							<div style="display: inline-block;vertical-align: top;background-image: url(img/搜索.png);background-repeat: no-repeat;background-size: cover;height: 14px;width: 14px;">
 							</div>
-							<input type="text" id="sou" placeholder="昵称搜索" style="width: 97px;height: 14px;;background-color: transparent;color: white;padding: 0px;font-size:10px;vertical-align: super;" />
+							<input type="text" id="sou" placeholder="搜索昵称" style="width: 97px;height: 14px;;background-color: transparent;color: white;padding: 0px;font-size:10px;vertical-align: super;" />
 						</div>
 					</div>
 					<a href="javascript:;" id="menu" style="background-image: url(img/菜单.png);"></a>
@@ -120,12 +127,12 @@
 							<p>修改信息</p>
 						</div>
 						<div class="out" id="music">
-							<div class="out_icon" style="background-image:url(img/关闭声音.png);">
+							<div class="out_icon" style="background-image:url(img/开启声音.png);">
 							</div>
 							<p>关闭声音</p>
 						</div>
 						<div class="out" id="notice">
-							<div class="out_icon" style="background-image:url(img/关闭通知.png);">
+							<div class="out_icon" style="background-image:url(img/通知.png);">
 							</div>
 							<p>关闭通知</p>
 						</div>
@@ -161,10 +168,9 @@
 			</div>
 			<div id="three_contain">
 				<div id="content_contain">
-					<div id="messagedetail" style="width: 100%;height: 100%;position:absolute;">
-					</div>
+					<div id="messagedetail" style="width: 100%;height: 100%;position:absolute;"></div>
 					<iframe id="iframe" style="width: 100%;height: 100%;position:absolute;background-image:url(img/草莓.png);background-repeat: no-repeat;background-position: center;"></iframe>
-					<div id="chatcontain" style="width: 100%;height: 100%;position:absolute;padding:0px 15px;box-sizing: border-box;">
+					<div id="chatcontain" style="width: 100%;height: 100%;position:absolute;padding:0px 15px;box-sizing: border-box;background-image:url(img/寿司.png);background-repeat: no-repeat;background-position: center;">
 						<div id="chat_top" class="letmiddle" style="color: black;"></div>
 						<div style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;margin-top:2px;">
 							<div id="yanchi">
@@ -271,7 +277,7 @@
 				 value="" placeholder="输入邮箱" /><br />
 				<input type="button" id="csubmit" value="提交" />
 			</div>
-			
+
 		</div>
 		<div id="chatmessege" style="width: 200px;height: 330px;display: none;position: absolute;background-color: #fff;z-index:3;border-radius: 3px;box-shadow: 1px 1px 10px 1px gray;">
 			<div style="width: 100%;height: 200px;background-image: url(img/饼干.png);background-position: center;background-repeat:no-repeat ;">
@@ -282,7 +288,7 @@
 			</div>
 		</div>
 		<div id="mask" style="position: absolute;height: 100%;width:100% ;background-color:rgba(220, 234, 245, 0.8);z-index: 10;display: none;">
-			<div style="position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);background-color: rgba(255, 255, 255, 0.8);
+			<div id="maskson" style="position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);background-color: rgba(255, 255, 255, 0.8);
 				width: 380px;height: 235px;box-shadow: 0 2px 10px #999;border-radius: 5px;">
 				<p id="alert" style="font-size: 20px;"></p>
 				<input type="button" id="mask_btn" value="确定" />
@@ -296,6 +302,7 @@
 				刷新
 			</div>
 		</div>
+		<audio src="img/ios.wav" id="au"></audio>
 	</body>
 	<script src="js/jquery-3.4.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/animate.js" type="text/javascript"></script>

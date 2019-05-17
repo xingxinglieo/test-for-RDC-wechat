@@ -74,6 +74,7 @@
 	width: 415px;
 	word-break: break-word;
 	overflow: auto;
+	white-space: normal;
 	font-size: 20px;
 	text-align: left;
 	box-shadow: 1px 1px 10px 1px gray;
@@ -108,6 +109,18 @@
 	transform: translate(-50%, 0);
 	display: none;
 }
-.chathead:hover{
+
+.chathead:hover {
 	cursor: pointer;
+}
+
+.floatr {
+	float: right;
+}
+
+.floatl {
+	float: left;
+	max-width: 120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

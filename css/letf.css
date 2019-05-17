@@ -1,11 +1,18 @@
 #panel {
-	width: 28%;
+	width: 281px;
 	height: 100%;
-	float: left;
+	display: inline-block;
 	background: #fafafa;
 	border-radius: 4px;
 }
-
+#three_contain {
+	height: 100%;
+	min-width:400px;
+	width: 700px;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+}
 #login_out {
 	position: absolute;
 	right: 0;
@@ -116,6 +123,7 @@
 	position: absolute;
 	top: 0px;
 	width: 100%;
+	white-space: normal;
 }
 
 #rightlist {
@@ -338,21 +346,13 @@
 .chattip {
 	color: gray;
 	font-size: 10px;
-	line-height: 16px;
+	line-height: 17px;
 }
 
 #content_contain {
 	height: 100%;
 	width: 100%;
 	position: absolute;
-}
-
-#three_contain {
-	height: 100%;
-	width: 72%;
-	float: left;
-	position: relative;
-	overflow: hidden;
 }
 
 .ring {
@@ -392,7 +392,7 @@
 	height: 10%;
 	background: transparent;
 	/* padding: 0px 15px; */
-	font-size: 18px;
+	font-size: 17px;
 }
 
 #textbtn {
@@ -416,7 +416,7 @@
 	height: 15px;
 	position: absolute;
 	right: 120px;
-	top: 12.5px;
+	top: 5px;
 	background-image: url(../img/rotate.gif);
 	background-size: cover;
 	background-repeat: no-repeat;

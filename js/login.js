@@ -3,9 +3,13 @@ document.cookie = "id=1";
 var url = 'http://120.77.247.10';
 var timeIP;
 var newsdata;
+var iam = false;
+var iamthree = false;
+var au = document.querySelector('#au');
 var content_one1 = '<div class="chat" mark="';
 var content_one2 = '"><img src="img/联系人.png" class="friendhead"><div class="info"><div class="friendname">';
-var content_two = '</div><div class = "chattip"></div></div><div class="dot"></div></div>'
+var content_two =
+	'</div><div class = "chattip floatl"></div><div class = "chattip floatr"></div></div><div class="dot"></div></div>'
 var content_three1 =
 	'<div class="right_chat" mark="';
 var content_three2 = '"><div class="right_friendname">'
@@ -46,7 +50,7 @@ if (localStorage.getItem("status") == "true") {
 } else
 	document.querySelector('#remember').checked = false; //保存密码函数
 
-chatmark = 0;
+chatmark = null;
 friendlist = document.querySelector('#friendlist'); //这个是包含三个容器的
 login_btn.onclick = function() {
 
@@ -78,11 +82,6 @@ document.querySelector("#lout").onclick = function(e) {
 	document.querySelector('#login_out').style.display = 'none';
 	e.stopPropagation();
 };
-// login_btn.click();
-document.querySelector('#login_password').onkeydown = function(e) {
-	if (e.keyCode == 13)
-		login_btn.click();
-}
 document.querySelector('#mask_btn').onclick = function() {
 	document.querySelector('#mask').style.display = 'none';
 };
@@ -105,6 +104,10 @@ document.querySelector('#chattext').addEventListener("keyup", function(e) {
 		ctr = 0;
 })
 document.querySelector('#textbtn').onclick = function() {
+	if (chatmark == myID) {
+		maskshow('无法给自己发送消息');
+		return;
+	}
 	var text = document.querySelector('#chattext');
 	if (text.value.length == 0) {
 		return;
@@ -163,9 +166,9 @@ document.querySelector("#csubmit").onclick = function() {
 	var j = document.querySelector('#caddress').value;
 	var k = document.querySelector('#cintroduction').value;
 	var l = document.querySelector('#cmailbox').value;
-	var exp_age =/^\d{1,2}$/;//验证年龄为1-2位数字
-	var exp_mail =/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;//验证邮箱
-	if(!exp_age.test(h)||!exp_mail.test(l)){
+	var exp_age = /^\d{1,2}$/; //验证年龄为1-2位数字
+	var exp_mail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/; //验证邮箱
+	if (!exp_age.test(h) || !exp_mail.test(l)) {
 		maskshow('您的填写有误');
 		return;
 	}
@@ -285,7 +288,10 @@ document.addEventListener("keydown", function(e) {
 	if (e.keyCode == 116) {
 		e.preventDefault();
 		F5();
-		// location.reload(true); //要做的其他事情
+	}
+	if (e.keyCode == 13) {
+		if (document.querySelector('#login_contain').style.display == 'block')
+			document.querySelector('#login_btn').click();
 	}
 }, false);
 document.querySelector('#barleft img').onmouseenter = function() {
@@ -322,7 +328,7 @@ function Lasthistory() {
 			return;
 		}
 		var content = '';
-		for (i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
+		for (let i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
 			content += historylist[chatmark + 0][historymark[chatmark]][i];
 		}
 		var Height = chatlist[chatmark].scrollHeight;
@@ -352,7 +358,7 @@ function Lasthistoryson() {
 		return;
 	}
 	var content = '';
-	for (i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
+	for (let i = historylist[chatmark + 0][historymark[chatmark]].length - 1; i >= 0; i--) {
 		content += historylist[chatmark + 0][historymark[chatmark]][i];
 	}
 	chatlist[chatmark].innerHTML = content + chatlist[chatmark].innerHTML;
@@ -397,7 +403,7 @@ document.onclick = function() {
 
 function RecordBefore() {
 	var record = '';
-	for (i = 0; i < friendlist_son.children.length; i++) {
+	for (let i = 0; i < friendlist_son.children.length; i++) {
 		if (i == friendlist_son.children.length - 1)
 			record += friendlist_son.children[i].getAttribute("mark");
 		else
@@ -415,47 +421,15 @@ function Relist() { //给消息排序,记得写一个排序函数 记录顺序
 	localStorage.setItem("myid", myID);
 	var record = localStorage.getItem("record");
 	var mark = record.split("!");
-	for (i = mark.length - 1; i >= 0; i--) {
+	for (let i = mark.length - 1; i >= 0; i--) {
 		friendlist_son.insertBefore(marklist[mark[i]], friendlist_son.children[0]);
 	}
-	for (i = 0; i < marklist.length - mark.length; i++) {
+	for (let i = 0; i < marklist.length - mark.length; i++) {
 		friendlist_son.removeChild(friendlist_son.lastElementChild)
 	}
 	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 }
-$.ajax({
-	type: "GET", //data 传送数据类型。get 传递
-	url: 'https://www.apiopen.top/journalismApi',
-	dataType: 'json',
-	success: function(o) {
-		var newscontent = '';
-		newsdata = o.data;
-		for (i = 0; i < 8; i++) {
-			newscontent += (news_twoo + newsdata.toutiao[i].link + news_end + newsdata.toutiao[i].title + news_threeo);
-		}
-		for (i = 0; i < newsdata.tech.length; i++) {
-			if (newsdata.tech[i].picInfo.length == 0)
-				newscontent += (news_twooo + newsdata.tech[i].link + news_end + newsdata.tech[i].title + news_three);
-			else
-				newscontent += (news_one + newsdata.tech[i].picInfo[0].url + news_two + newsdata.tech[i].link + news_end +
-					newsdata.tech[i].title + news_three);
-			if (newsdata.dy[i].picInfo.length == 0)
-				newscontent += (news_twooo + newsdata.dy[i].link + news_end + newsdata.dy[i].title + news_three);
-			else
-				newscontent += (news_one + newsdata.dy[i].picInfo[0].url + news_two + newsdata.dy[i].link + news_end + newsdata.dy[
-					i].title + news_three);
-		}
-		document.querySelector('#middlelist').innerHTML = newscontent;
-		document.querySelector('#middlelist').onclick = function(e) {
-			document.querySelector('#iframe').src = e.target.getAttribute("link");
-		}
-		var midlist = document.querySelector('#middlelist');
-		var midson = document.querySelector('#middlescroll_son');
-		scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
-	}
-})
-animate(document.querySelector('#login_contain'), document.querySelector('body').offsetHeight / 2 - document.querySelector(
-	'#login_contain').offsetHeight / 2, 10, 'top')
+
 
 function F5() {
 	$.ajax({
@@ -581,7 +555,7 @@ function animates(element, target, interval, direction, s) {
 function search(arr, chars) {
 	var charmark = [];
 	var j = 0;
-	for (i = 0; i < arr.length; i++) {
+	for (let i = 0; i < arr.length; i++) {
 		if (arr[i + ''].indexOf(chars) + 1) {
 			charmark[j] = i + '';
 			j++;
@@ -608,7 +582,7 @@ document.querySelector('#sou').onkeyup = function() {
 		document.querySelector('#souresult').appendChild(div);
 		return;
 	}
-	for (i = 0; i < markd.length; i++) {
+	for (let i = 0; i < markd.length; i++) {
 		var div = document.createElement("div");
 		div.className = 'searchson';
 		div.innerText = hisname[markd[i]];
@@ -622,3 +596,77 @@ document.querySelector('#souresult').onclick = function(e) {
 		document.querySelector('#barright').click();
 	}
 };
+document.querySelector('#music').onclick = function(e) {
+	if (this.children[1].innerText == '关闭声音') {
+		this.children[1].innerText = '开启声音';
+		this.children[0].style.backgroundImage = 'url(img/关闭声音.png)';
+		au.src = '';
+	} else {
+		this.children[1].innerText = '关闭声音';
+		this.children[0].style.backgroundImage = 'url(img/开启声音.png)';
+		au.src = 'img/ios.wav';
+	}
+}
+drag(document.querySelector('#login_contain'));
+drag(document.querySelector('#maskson'));
+document.querySelector('#content_contain').addEventListener("mousedown", function(e) {
+	var main = document.querySelector('#main');
+	var three_contain = document.querySelector('#three_contain');
+	if (e.target.className == 'message_contain') iamthree = true;
+	window.mark_one = e.pageX;
+	window.mark_width = three_contain.offsetWidth;
+	if (e.offsetX > three_contain.offsetWidth - 20 && e.offsetX < three_contain.offsetWidth) {
+		document.querySelector('body').style.cursor = 'move';
+		window.iam = true;
+	}
+})
+document.addEventListener("mouseup", function(e) {
+	iamthree = false;
+	iam = false;
+	document.querySelector('body').style.cursor = 'default';
+})
+document.addEventListener("mousemove", function(e) {
+	if (iam) {
+		var distance = mark_one - e.pageX;
+		if (distance > 300) distance = 300;
+		if (distance < -400) distance = -400;
+		document.querySelector('#three_contain').style.width = mark_width - 2 * distance + 'px';
+		document.querySelector('#messagedetail').style.left = document.querySelector('#three_contain').offsetWidth + 'px';
+		document.querySelector('#messagedetail').style.left = -2 * document.querySelector('#three_contain').offsetWidth +
+			'px'
+		document.querySelector('#iframe').style.left = -document.querySelector('#three_contain').offsetWidth + 'px';
+		rightwidth = document.querySelector('#three_contain').offsetWidth;
+		if (iamthree) document.querySelector('#content_contain').style.left = 2 * rightwidth + 'px';
+	}
+})
+$.ajax({
+	type: "GET", //data 传送数据类型。get 传递
+	url: 'https://www.apiopen.top/journalismApi',
+	dataType: 'json',
+	success: function(o) {
+		var newscontent = '';
+		newsdata = o.data;
+		for (i = 0; i < 8; i++) {
+			newscontent += (news_twoo + newsdata.toutiao[i].link + news_end + newsdata.toutiao[i].title + news_threeo);
+		}
+		for (i = 0; i < newsdata.tech.length; i++) {
+			if (newsdata.tech[i].picInfo.length == 0)
+				newscontent += (news_twooo + newsdata.tech[i].link + news_end + newsdata.tech[i].title + news_three);
+			else
+				newscontent += (news_one + newsdata.tech[i].picInfo[0].url + news_two + newsdata.tech[i].link + news_end +
+					newsdata.tech[i].title + news_three);
+			if (newsdata.dy[i].picInfo.length == 0)
+				newscontent += (news_twooo + newsdata.dy[i].link + news_end + newsdata.dy[i].title + news_three);
+			else
+				newscontent += (news_one + newsdata.dy[i].picInfo[0].url + news_two + newsdata.dy[i].link + news_end + newsdata.dy[
+					i].title + news_three);
+		}
+		document.querySelector('#middlelist').innerHTML = newscontent;
+		document.querySelector('#middlelist').onclick = function(e) {
+			document.querySelector('#iframe').src = e.target.getAttribute("link");
+		}
+		var midlist = document.querySelector('#middlelist');
+		var midson = document.querySelector('#middlescroll_son');
+		scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
+	}
+})
