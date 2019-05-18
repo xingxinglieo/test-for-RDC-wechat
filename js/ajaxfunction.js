@@ -50,8 +50,7 @@ function login(a, p) {
 					document.querySelector('#icon').style.display = 'none';
 					document.querySelector('#copyright').style.display = 'none';
 					document.querySelector("#main").style.visibility = 'visible';
-					document.querySelector("#main").style.display = 'block';
-				}, 600)
+				}, 50)
 			} else {
 				login_tip.style.color = 'red';
 				login_tip.innerText = '账户密码错误或未登出,请检查或者f5刷新后重试';
@@ -103,7 +102,6 @@ function getList() {
 			friendlist_son.innerHTML = content; //聊天好友列表的内容插入
 			rightlist.innerHTML = rightcontent; //详情信息列表的内容插入
 			scrollfun(rightlist, rightscroll_son);
-			scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
 			for (let i = 0; i < friendchat.length; i++) { //这里是创造窗口对象
 				dotmark[i] = 0;
 				chatlist[i] = document.createElement('div');
@@ -160,7 +158,6 @@ function getList() {
 						marklist[chatmark].click();
 						friendlist_son.insertBefore(marklist[chatmark], friendlist_son.children[0]); //将聊天头像提前
 						RecordBefore();
-						scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 						document.querySelector('#srcoll_son').style.top = '0px';
 						document.querySelector('#friendlist_son').style.top = '0px';
 
@@ -170,7 +167,6 @@ function getList() {
 			FirstnewMessage();
 			document.querySelector('#chat_content').appendChild(chatlist[0]); //加入好友列表
 			document.querySelector('#chat_content').appendChild(scrolllist[0]);
-			document.querySelector("#main").style.display = 'none';
 			document.querySelector('#barleft').click(); //让页面回到左栏
 			for (let i = 0; i < friendchat.length; i++) {
 				message('' + i);

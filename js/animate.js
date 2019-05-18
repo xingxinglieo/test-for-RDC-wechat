@@ -81,5 +81,4 @@ function drag(dom) {
 		marked = false;
 		dom.style.cursor = 'default';
 	})
-}
-
+};

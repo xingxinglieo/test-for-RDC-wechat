@@ -1,3 +1,228 @@
+* {
+	padding: 0px;
+	margin: 0px;
+	/* border: 1px solid red; */
+	border: none;
+	-moz-user-select: none;
+	/* 火狐 */
+	-webkit-user-select: none;
+	/* 谷歌 */
+	-ms-user-select: none;
+	/* IE */
+	user-select: none;
+
+}
+
+h1,
+h2 {
+	/* display: inline-block; */
+	text-align: center;
+}
+
+#panel h1,
+#panel h2 {
+	display: inline-block;
+}
+
+a,
+button,
+input,
+textarea {
+	outline: 0;
+}
+
+input[type="button"]:hover {
+	cursor: pointer;
+}
+
+#history:hover {
+	cursor: pointer;
+}
+
+img {
+	width: 40px;
+	height: 40px;
+}
+
+.middlelist_info {
+	color: white;
+	display: inline-block;
+	width: 180px;
+	word-break: break-word;
+	vertical-align: top;
+	min-height: 40px;
+	overflow: hidden;
+}
+
+.logo {
+	position: absolute;
+	top: 60px;
+	left: 60px;
+	background-image: url(../img/微信.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 36px;
+	height: 32px;
+}
+
+.copyright {
+	/* display: none; */
+	position: absolute;
+	bottom: 60px;
+	right: 60px;
+	color: #d3d3d3;
+	font-size: 12px;
+}
+
+.lang {
+	/* display:none; */
+	position: absolute;
+	left: 60px;
+	bottom: 60px;
+}
+
+.lang a {
+	text-decoration: none;
+	font-size: 12px;
+	color: #d3d3d3;
+}
+
+
+
+.lang .sep {
+	display: inline-block;
+	height: 12px;
+	vertical-align: middle;
+	margin: 0 10px;
+	border-right: 1px solid #d3d3d3;
+}
+
+#login_contain {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(255, 255, 255, 0.2);
+	width: 380px;
+	height: 250px;
+	box-shadow: 0 2px 10px #999;
+	animation: firstanimate 0.3s linear;
+	z-index: 1;
+	display: block;
+	/* display: none; */
+}
+
+#remember_box {
+	padding-left: 27px;
+}
+
+@keyframes firstanimate {
+	from {
+		left: 50%;
+		top: 85%;
+		transform: translate(-50%, 0);
+	}
+
+	to {
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
+#login_account,
+#login_password {
+	margin-left: 27px;
+	width: 80%;
+	font-size: 18px;
+	line-height: 16px;
+	height: 16px;
+	padding: 11px 8px 11px 10px;
+	border: 1px solid #ddd;
+
+	border-radius: 6px
+}
+
+#login_account {
+	margin-top: 40px;
+}
+
+#login_password {
+	margin-top: 10px;
+}
+
+#login_tip {
+	height: 16px;
+	line-height: 16px;
+	margin-left: 27px;
+	color: #ff3b8a;
+}
+
+#login_btn {
+	margin-left: 25px;
+	width: 327px;
+	height: 50px;
+	margin-top: 10px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 40px;
+	border-radius: 3px;
+	outline: none;
+	background-color: #00a2ff;
+	color: white;
+}
+
+#mask_btn {
+	width: 100px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 40px;
+	border-radius: 3px;
+	outline: none;
+	background-color: #00a2ff;
+	color: white;
+	position: absolute;
+	left: 50%;
+	top: 70%;
+	transform: translate(-50%, -50%);
+}
+
+#mask_btn:hover {
+	cursor: pointer;
+}
+
+.send_btn {
+	position: absolute;
+	left: 52.5%;
+	top: 50%;
+	transform: translate(-50%, 150%);
+	width: 150px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 40px;
+	border-radius: 10px;
+	outline: none;
+	background-color: #00a2ff;
+	color: white;
+}
+
+#send_btn:hover {
+	cursor: pointer;
+}
+
+#alert {
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+}
+
+#login_btn:hover {
+	cursor: pointer;
+}
+
 #body {
 	background: url(../img/2zrdI1g.jfif);
 	background-size: cover;
@@ -13,10 +238,23 @@
 	white-space: nowrap;
 	border-radius: 4px;
 	background-color: white;
+	box-shadow: 2px 2px 5px 2px grey;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+#moved {
+	height: 100%;
+	width: 30px;
+	position: absolute;
+	right: -15px;
+	z-index: 3;
+}
+
+#moved:hover {
+	cursor: w-resize;
 }
 
 .none {
@@ -109,6 +347,41 @@
 	background-color: #00a2ff !important;
 }
 
+#xx {
+	background-image: url(../img/叉.png);
+	float: right;
+	height: 25px;
+	width: 25px;
+	border-radius: 10px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
 #xx:hover {
 	cursor: pointer;
+}
+
+#mask {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(220, 234, 245, 0.8);
+	z-index: 10;
+	display: none;
+}
+
+#maskson {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(255, 255, 255, 0.8);
+	width: 380px;
+	height: 235px;
+	box-shadow: 0 2px 10px #999;
+	border-radius: 5px;
+}
+#alert{
+	font-size: 20px;
+	
 }

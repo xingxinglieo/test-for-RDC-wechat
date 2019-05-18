@@ -1,5 +1,4 @@
 //登之前确保登出;
-document.cookie = "id=1";
 var url = 'http://120.77.247.10';
 var timeIP;
 var newsdata;
@@ -8,22 +7,16 @@ var iamthree = false;
 var au = document.querySelector('#au');
 var content_one1 = '<div class="chat" mark="';
 var content_one2 = '"><img src="img/联系人.png" class="friendhead"><div class="info"><div class="friendname">';
-var content_two =
-	'</div><div class = "chattip floatl"></div><div class = "chattip floatr"></div></div><div class="dot"></div></div>'
-var content_three1 =
-	'<div class="right_chat" mark="';
-var content_three2 = '"><div class="right_friendname">'
-var content_four = '</div></div>';
+var content_two ='</div><div class = "chattip floatl"></div><div class = "chattip floatr"></div></div><div class="dot"></div></div>'
+var content_three1 ='<div class="right_chat" mark="';
+var content_three2 ='"><div class="right_friendname">'
+var content_four ='</div></div>';
 var content_five1 = '<div class="timetip">';
 var content_five2 = '</div>';
-var content_right =
-	'</div><div class="chathead" style="float: right;background-image: url(img/联系人.png);"></div><div class="chats rightchat">'
-var content_left =
-	'</div><div class="chathead" style="float: left;background-image:url(img/联系人.png);"></div><div  class="chats leftchat">'
-//content+timetip+right/left+内容+content_five2;
-message_content = '';
-var message_one =
-	'<div class="message_contain"><div class="ring letmiddle">详细信息</div><div class="ringg" style="background-image: url(img/联系人.png);"></div><p class="nickname">'
+var content_right ='</div><div class="chathead" style="float: right;background-image: url(img/联系人.png);"></div><div class="chats rightchat">'
+var content_left ='</div><div class="chathead" style="float: left;background-image:url(img/联系人.png);"></div><div  class="chats leftchat">'
+var message_content = '';
+var message_one ='<div class="message_contain"><div class="ring letmiddle">详细信息</div><div class="ringg" style="background-image: url(img/联系人.png);"></div><p class="nickname">'
 var message_two = '</p><p class="introdution">签名:    ';
 var message_three = '</p><p class="letmiddle age">年龄:    ';
 var message_four = '</p><p class="letmiddle address">地址:    ';
@@ -40,18 +33,17 @@ var login_contain = document.querySelector('#login_contain');
 var login_btn = document.querySelector('#login_btn');
 var ctr = 0;
 var load = 1;
+var chatmark = null;
 var rightwidth = document.querySelector('#three_contain').offsetWidth;
 document.querySelector("#iframe").style.left = -rightwidth + 'px'
 document.querySelector('#messagedetail').style.left = -2 * rightwidth + 'px';
+var friendlist = document.querySelector('#friendlist'); //这个是包含三个容器的
 if (localStorage.getItem("status") == "true") {
 	document.querySelector('#remember').checked = true;
 	document.querySelector('#login_account').value = localStorage.getItem('username');
 	document.querySelector('#login_password').value = localStorage.getItem('password');
 } else
-	document.querySelector('#remember').checked = false; //保存密码函数
-
-chatmark = null;
-friendlist = document.querySelector('#friendlist'); //这个是包含三个容器的
+document.querySelector('#remember').checked = false; //保存密码函数
 login_btn.onclick = function() {
 
 	$.ajaxSetup({
@@ -222,19 +214,25 @@ document.querySelector('#xx').onclick = function() {
 }
 document.querySelector('#barleft').onclick = function() {
 	listhidden();
+	iamthree = 0;
+	document.querySelector('#moved').style.display = 'block';
 	animate(document.querySelector('#content_contain'), 0, 7, 'left');
 	document.querySelector("#friendlist_son").style.display = 'block';
 	document.querySelector('#srcoll').style.display = 'block';
-
+	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 }
 document.querySelector('#barmiddle').onclick = function() {
 	listhidden();
+	document.querySelector('#moved').style.display = 'none';
 	animate(document.querySelector('#content_contain'), rightwidth, 7, 'left');
 	document.querySelector('#middlelist').style.display = 'block';
 	document.querySelector('#middlescroll').style.display = 'block';
+	scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
 }
 document.querySelector('#barright').onclick = function() {
 	listhidden();
+	document.querySelector('#moved').style.display = 'block';
+	iamthree = 2;
 	animate(document.querySelector('#content_contain'), 2 * rightwidth, 7, 'left');
 	document.querySelector('#rightlist').style.display = 'block';
 	document.querySelector('#rightcscroll').style.display = 'block';
@@ -272,7 +270,6 @@ document.oncontextmenu = function(e) {
 document.querySelector('#refresh').onclick = function() {
 	F5();
 }
-
 function listhidden() {
 	document.querySelector("#friendlist_son").style.display = 'none';
 	document.querySelector('#srcoll').style.display = 'none';
@@ -313,7 +310,6 @@ document.querySelector('#barright img').onmouseleave = function() {
 	this.src = 'img/联系人信息.png';
 }
 document.querySelector('#lasthistory').addEventListener("click", Lasthistory);
-
 function Lasthistory() {
 	if (load == 0) return;
 	else load = 0; //load记录防止多次触发函数
@@ -349,7 +345,6 @@ function Lasthistory() {
 		load = 1;
 	}, 300)
 }
-
 function Lasthistoryson() {
 	if (historymark[chatmark] < 0 || historymark[chatmark] >= historylist[chatmark + 0].length) {
 		chatlist[chatmark].removeEventListener("wheel", TopHistory);
@@ -385,7 +380,6 @@ document.querySelector('#emojibar').onclick = function(e) {
 	document.querySelector('#emojicontain').style.display = 'block';
 	e.stopPropagation();
 }
-
 function TopHistory(e) {
 	var b = document.querySelector('.chatscroll_son').offsetTop;
 	var abs = e.detail || e.wheelDelta;
@@ -400,7 +394,6 @@ document.onclick = function() {
 	document.querySelector('#textmenu').style.display = 'none';
 	document.querySelector('#chatmessege').style.display = 'none';
 }
-
 function RecordBefore() {
 	var record = '';
 	for (let i = 0; i < friendlist_son.children.length; i++) {
@@ -411,7 +404,6 @@ function RecordBefore() {
 	}
 	localStorage.setItem("record", record);
 }
-
 function Relist() { //给消息排序,记得写一个排序函数 记录顺序
 	if (localStorage.getItem("record") == undefined || localStorage.getItem("myid") != (myID + '')) {
 		scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
@@ -429,8 +421,6 @@ function Relist() { //给消息排序,记得写一个排序函数 记录顺序
 	}
 	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 }
-
-
 function F5() {
 	$.ajax({
 		type: "GET",
@@ -446,16 +436,15 @@ function F5() {
 		}
 	});
 }
-
 function insertStr(soure, start, newStr) { //为字符串插入字符 其中soure为原字符串,start为将要插入字符的位置，newStr为要插入的字符   
 	return soure.slice(0, start) + newStr + soure.slice(start);
 }
-
 function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 	if (friendlists.scrollHeight <= friendlists.parentNode.offsetHeight) return;
 	var scroll_scale = friendlists.scrollHeight / friendlists.parentNode.offsetHeight; //设置比例 一定要加var 不然会有bug!
-	scroll_son.parentNode.style.height = friendlists.parentNode.offsetHeight + 'px'; //设置滚动父元素高度
-	scroll_son.style.height = friendlists.parentNode.offsetHeight / scroll_scale + 'px'; //设置滚动子元素高度
+	var friendlists_parent = friendlists.parentNode;
+	scroll_son.parentNode.style.height = friendlists_parent.offsetHeight + 'px'; //设置滚动父元素高度
+	scroll_son.style.height = friendlists_parent.offsetHeight / scroll_scale + 'px'; //设置滚动子元素高度
 	scroll_son.onmousedown = function(e) {
 		var initial = e.pageY;
 		var b = scroll_son.offsetTop;
@@ -463,7 +452,7 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 		document.onmousemove = function(e) {
 			var now = e.pageY - initial;
 			now < -b ? now = -b : now = now;
-			now > friendlists.parentNode.offsetHeight - scroll_son.offsetHeight - b ? now = friendlists.parentNode.offsetHeight -
+			now > friendlists_parent.offsetHeight - scroll_son.offsetHeight - b ? now = friendlists_parent.offsetHeight -
 				scroll_son.offsetHeight - b : now = now; //防止移出范围
 			scroll_son.style.top = b + now + 'px';
 			friendlists.style.top = a - now * scroll_scale + 'px';
@@ -473,13 +462,10 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 		document.onmousemove = null; //一定要设置这个 否则鼠标会一直跟着走;
 	}
 	friendlists.onwheel = function(e) {
-		e = e || window.event;
 		var b = scroll_son.offsetTop;
 		var a = friendlists.offsetTop;
 		var scroll_target = 15;
-		var abs = e.detail || e.wheelDelta;
-		// var scroll_target = 2;
-		// var scrollabs = e.wheelDelta || e.
+		var abs = (-e.deltaY) || e.wheelDelta;
 		var mark = Math.abs(abs) / abs;
 		var timeID = setInterval(function() {
 			scroll_son.style.top = scroll_son.offsetTop - scroll_target * mark + 'px';
@@ -502,18 +488,16 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 					friendlists.style.top = a - (scroll_target) * scroll_scale + 'px';
 					clearInterval(timeID);
 				}
-				if (scroll_son.offsetTop > friendlists.parentNode.offsetHeight - scroll_son.offsetHeight) {
-					scroll_son.style.top = friendlists.parentNode.offsetHeight - scroll_son.offsetHeight + 'px';
-					friendlists.style.top = friendlists.parentNode.offsetHeight - friendlists.scrollHeight + 'px';
+				if (scroll_son.offsetTop > friendlists_parent.offsetHeight - scroll_son.offsetHeight) {
+					scroll_son.style.top = friendlists_parent.offsetHeight - scroll_son.offsetHeight + 'px';
+					friendlists.style.top = friendlists_parent.offsetHeight - friendlists.scrollHeight + 'px';
 					clearInterval(timeID);
 					return;
 				}
 
 			}
-		}, 1) //定时器末尾
-
-	};
-
+		}, 1) //定时器末尾}
+	}
 } //滚动结尾
 function animates(element, target, interval, direction, s) {
 	// 通过判断，保证页面上只有一个定时器在执行动画
@@ -551,7 +535,6 @@ function animates(element, target, interval, direction, s) {
 		}, interval);
 	}
 }
-
 function search(arr, chars) {
 	var charmark = [];
 	var j = 0;
@@ -607,23 +590,16 @@ document.querySelector('#music').onclick = function(e) {
 		au.src = 'img/ios.wav';
 	}
 }
-drag(document.querySelector('#login_contain'));
-drag(document.querySelector('#maskson'));
-document.querySelector('#content_contain').addEventListener("mousedown", function(e) {
-	var main = document.querySelector('#main');
+document.querySelector('#moved').addEventListener("mousedown", function(e) {
 	var three_contain = document.querySelector('#three_contain');
-	if (e.target.className == 'message_contain') iamthree = true;
 	window.mark_one = e.pageX;
 	window.mark_width = three_contain.offsetWidth;
-	if (e.offsetX > three_contain.offsetWidth - 20 && e.offsetX < three_contain.offsetWidth) {
-		document.querySelector('body').style.cursor = 'move';
-		window.iam = true;
-	}
-})
+	iam = true;
+	document.querySelector('#main').style.cursor = 'w-resize';
+});
 document.addEventListener("mouseup", function(e) {
-	iamthree = false;
 	iam = false;
-	document.querySelector('body').style.cursor = 'default';
+	document.querySelector('#main').style.cursor = 'default';
 })
 document.addEventListener("mousemove", function(e) {
 	if (iam) {
@@ -636,7 +612,7 @@ document.addEventListener("mousemove", function(e) {
 			'px'
 		document.querySelector('#iframe').style.left = -document.querySelector('#three_contain').offsetWidth + 'px';
 		rightwidth = document.querySelector('#three_contain').offsetWidth;
-		if (iamthree) document.querySelector('#content_contain').style.left = 2 * rightwidth + 'px';
+		document.querySelector('#content_contain').style.left = iamthree * rightwidth + 'px';
 	}
 })
 $.ajax({
@@ -658,8 +634,9 @@ $.ajax({
 			if (newsdata.dy[i].picInfo.length == 0)
 				newscontent += (news_twooo + newsdata.dy[i].link + news_end + newsdata.dy[i].title + news_three);
 			else
-				newscontent += (news_one + newsdata.dy[i].picInfo[0].url + news_two + newsdata.dy[i].link + news_end + newsdata.dy[
-					i].title + news_three);
+				newscontent += (news_one + newsdata.dy[i].picInfo[0].url + news_two + newsdata.dy[i].link + news_end + newsdata
+					.dy[
+						i].title + news_three);
 		}
 		document.querySelector('#middlelist').innerHTML = newscontent;
 		document.querySelector('#middlelist').onclick = function(e) {
@@ -668,5 +645,10 @@ $.ajax({
 		var midlist = document.querySelector('#middlelist');
 		var midson = document.querySelector('#middlescroll_son');
 		scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
+		setTimeout(function() {
+			scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
+		}, 2000)
 	}
 })
+drag(document.querySelector('#login_contain'));
+drag(document.querySelector('#maskson'));

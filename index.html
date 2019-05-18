@@ -2,89 +2,19 @@
 <html style="height: 100%;">
 	<head>
 		<meta charset="utf-8" />
-		<title></title>
-		<style type="text/css">
-			* {
-				padding: 0px;
-				margin: 0px;
-				/* border: 1px solid red; */
-				border: none;
-				-moz-user-select: none;
-				/* 火狐 */
-				-webkit-user-select: none;
-				/* 谷歌 */
-				-ms-user-select: none;
-				/* IE */
-				user-select: none;
-
-			}
-			
-			h1,
-			h2 {
-				/* display: inline-block; */
-				text-align: center;
-			}
-
-			#panel h1,
-			#panel h2 {
-				display: inline-block;
-			}
-
-			a,
-			button,
-			input,
-			textarea {
-				outline: 0;
-			}
-
-			input[type="button"]:hover {
-				cursor: pointer;
-			}
-
-			#history:hover {
-				cursor: pointer;
-			}
-
-			img {
-				width: 40px;
-				height: 40px;
-			}
-
-			.middlelist_info {
-				color: white;
-				display: inline-block;
-				width: 180px;
-				word-break: break-word;
-				vertical-align: top;
-				min-height: 40px;
-				overflow: hidden;
-			}
-
-			.logo {
-				position: absolute;
-				top: 60px;
-				left: 60px;
-				background-image: url(img/微信.png);
-				background-size: cover;
-				background-repeat: no-repeat;
-				width: 36px;
-				height: 32px;
-			}
-		</style>
-		<link rel="stylesheet" type="text/css" href="css/background.css" />
-		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		<title>R&D</title>
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<link rel="stylesheet" type="text/css" href="css/right.css" />
 		<link rel="stylesheet" type="text/css" href="css/letf.css" />
 	</head>
 	<body id="body" style="overflow: hidden;">
 		<!--登录框部分-->
-		<div id="login_contain" style="z-index:1;display: block;">
+		<div id="login_contain">
 			<form id="login_message">
 				<input type="text" id="login_account" placeholder="请输入账号" />
 				<input type="password" id="login_password" placeholder="请输入密码" />
 				<div id="login_tip"></div>
-				<div id="remember_box" style="padding-left:27px;">
+				<div id="remember_box">
 					<input type="checkbox" value="remember-me" id="remember" checked>
 					<label for="remember-password-checkbox">
 						Remember me
@@ -98,25 +28,25 @@
 			<div class="logo" id="icon">
 			</div>
 			<div class="copyright" id="copyright">
-				<p class="desc">By&nbsp;xingxinglieo&nbsp;Copy&nbsp;by&nbsp;Tencent</p>
+				<p class="desc">By&nbsp;xingxinglieo&nbsp;Copy&nbsp;by&nbsp;QQ</p>
 			</div>
 		</section>
 		<!--背景部分-->
 		<div id="main">
-			<div id="panel" onselectstart="return false;" style="position: relative;">
+			<div id="moved">
+				
+			</div>
+			<div id="panel">
 				<div id="souresult">
 				</div>
-
-				<div id="header" onselectstart="return false;" style="white-space: nowrap;">
-					<img src="img/联系人(1).png" style="height: 54px;width: 54px;padding-right: 9.625px;" onselectstart="return false;">
-					<div style="display: inline-block;white-space:nowrap;text-overflow: ellipsis;overflow: hidden;width:55%;"
-					 onselectstart="return false;">
-						<h4 id="myname" style="float:left;color: white;height: 32px;width: 100%;line-height: 30px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"
-						 onselectstart="return false;"></h4>
-						<div style="width: 85%;height: 14px;float: left;background-color:rgba(255,255,255,0.6);border-radius: 9px;padding: 2px 9px;font-size:12px ;">
-							<div style="display: inline-block;vertical-align: top;background-image: url(img/搜索.png);background-repeat: no-repeat;background-size: cover;height: 14px;width: 14px;">
+				<div id="header" >
+					<img id="header_img" src="img/联系人(1).png">
+					<div id="nav">
+						<h4 id="myname"></h4>
+						<div id="search_contain">
+							<div id="sou_father">
 							</div>
-							<input type="text" id="sou" placeholder="搜索昵称" style="width: 97px;height: 14px;;background-color: transparent;color: white;padding: 0px;font-size:10px;vertical-align: super;" />
+							<input type="text" id="sou" placeholder="搜索昵称" />
 						</div>
 					</div>
 					<a href="javascript:;" id="menu" style="background-image: url(img/菜单.png);"></a>
@@ -149,12 +79,14 @@
 					<a href="javascript:;" id="barmiddle"><img src="img/公众号.png"></a>
 					<a href="javascript:;" id="barright"><img src="img/联系人信息.png"></a>
 				</div>
-				<div id="friendlist" onselectstart="return false;">
-					<div id="friendlist_son" class="list" onselectstart="return false;"></div>
+				<div id="friendlist">
+					<div id="friendlist_son" class="list"></div>
 					<div id="srcoll">
 						<div id="srcoll_son"></div>
 					</div>
-					<div id="middlelist" class="list">
+					<div id="middlelist" class="list" style="height: 100%;">
+						<div id="middlelist_son">
+						</div>
 					</div>
 					<div id="middlescroll">
 						<div id="middlescroll_son">
@@ -162,24 +94,25 @@
 					</div>
 					<div id="rightlist" class="list"></div>
 					<div id="rightcscroll">
-						<div id="rightcscroll_son"></div>
+					<div id="rightcscroll_son"></div>
 					</div>
 				</div>
 			</div>
 			<div id="three_contain">
 				<div id="content_contain">
-					<div id="messagedetail" style="width: 100%;height: 100%;position:absolute;"></div>
-					<iframe id="iframe" style="width: 100%;height: 100%;position:absolute;background-image:url(img/草莓.png);background-repeat: no-repeat;background-position: center;"></iframe>
-					<div id="chatcontain" style="width: 100%;height: 100%;position:absolute;padding:0px 15px;box-sizing: border-box;background-image:url(img/寿司.png);background-repeat: no-repeat;background-position: center;">
+					<div id="messagedetail" ></div>
+					<iframe id="iframe" ></iframe>
+					<div id="chatcontain" >
 						<div id="chat_top" class="letmiddle" style="color: black;"></div>
-						<div style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;margin-top:2px;">
+						<div id="chat_nex" >
 							<div id="yanchi">
 							</div>
 							<span id="lasthistory">滚动至顶部或点击查看前十条消息</span>
 						</div>
 						<div id="chat_content">
 						</div>
-						<div id="historybar" style="position:relative;text-align:center;font-size: 10px;color:skyblue ;width: 100%;height: 15px;border-top:1px solid #c3c3c3;margin:18px 0px;">
+						<div id="historybar" >
+							<span id="emojibar" >😃</span>
 							<div id="emojicontain">
 								<span class="emoji" marks="😂">😂</span><span class="emoji" marks="😃">😃</span><span class="emoji" marks="😄">😄</span><span
 								 class="emoji" marks="😅">😅</span><span class="emoji" marks="😆">😆</span><span class="emoji" marks="😉">😉</span><span
@@ -238,9 +171,8 @@
 								 class="emoji" marks="🐰">🐰</span><span class="emoji" marks="🐼">🐼</span><span class="emoji" marks="🐓">🐓</span><span
 								 class="emoji" marks="🐸">🐸</span><span class="emoji" marks="🐳">🐳</span>
 							</div>
-							<span id="emojibar" style="float:left;margin-left:5px;font-size:16px">😃</span>
 							<span id="history">查看全部历史消息</span>
-							<div id="newtip" style="display: none;position: absolute;top: -232%;left: 20px;max-width: 240px;padding:0px 5px;line-height: 21px;min-height: 21px;background-color:#6699ff;word-wrap: break-word;border-radius: 10px;color:white">
+							<div id="newtip" >
 								<div id="newtip_son"></div>
 							</div>
 						</div>
@@ -248,18 +180,17 @@
 						<div style="height: 40px;position: relative;">
 
 							<input type="button" id="textbtn" value="发送" />
-							<div id="hang" style="float: right;color: gray;font-size:10px;    position: absolute;right: 115px;bottom: 3px;">
+							<div id="hang" >
 								按ctr+enter键换行
 							</div>
-							<div id="textbtn_before" style="display: none;color: indianred;"></div>
+							<div id="textbtn_before" ></div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div id="change">
 				<div>
-					<div id="xx" style="background-image:url(img/叉.png) ;float: right;
-						height: 25px;width:25px;border-radius:10px;background-size: cover;background-repeat: no-repeat;">
+					<div id="xx" >
 					</div>
 				</div>
 				<div style="clear: both;margin-bottom: 10px;">
@@ -279,18 +210,17 @@
 			</div>
 
 		</div>
-		<div id="chatmessege" style="width: 200px;height: 330px;display: none;position: absolute;background-color: #fff;z-index:3;border-radius: 3px;box-shadow: 1px 1px 10px 1px gray;">
-			<div style="width: 100%;height: 200px;background-image: url(img/饼干.png);background-position: center;background-repeat:no-repeat ;">
+		<div id="chatmessege" >
+			<div id="chatmessege_zero" >
 			</div>
-			<div id="chatmessegexx" style="padding: 18px;">
-				<div id="chatmessege_one" style="line-height: 45px;"></div>
-				<div id="chatmessege_two" style="color: gray;font-size: 10px;"></div>
+			<div id="chatmessegexx" >
+				<div id="chatmessege_one" ></div>
+				<div id="chatmessege_two" ></div>
 			</div>
 		</div>
-		<div id="mask" style="position: absolute;height: 100%;width:100% ;background-color:rgba(220, 234, 245, 0.8);z-index: 10;display: none;">
-			<div id="maskson" style="position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);background-color: rgba(255, 255, 255, 0.8);
-				width: 380px;height: 235px;box-shadow: 0 2px 10px #999;border-radius: 5px;">
-				<p id="alert" style="font-size: 20px;"></p>
+		<div id="mask" >
+			<div id="maskson" >
+				<p id="alert" ></p>
 				<input type="button" id="mask_btn" value="确定" />
 			</div>
 		</div>
