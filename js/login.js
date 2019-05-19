@@ -33,6 +33,7 @@ var login_contain = document.querySelector('#login_contain');
 var login_btn = document.querySelector('#login_btn');
 var ctr = 0;
 var load = 1;
+var winblur = true;
 var chatmark = null;
 var rightwidth = document.querySelector('#three_contain').offsetWidth;
 document.querySelector("#iframe").style.left = -rightwidth + 'px'
@@ -54,6 +55,8 @@ login_btn.onclick = function() {
 	});
 	login($('#login_account').val(), $('#login_password').val());
 }
+window.onfocus = function(){winblur=false};
+window.onblur = function(){winblur = true};
 document.querySelector("#lout").onclick = function(e) {
 	$.ajax({
 		type: "GET", //data 传送数据类型。post 传递
@@ -126,7 +129,7 @@ document.querySelector('#textbtn').onclick = function() {
 				friendlist_son.style.top = '0px';
 			}, 100)
 			marklist[chatmark].children[2].style.display = 'none'; //红点消失
-			chatlist[chatmark].innerHTML += content_five1 + content_right + textvalue + content_five2;
+			chatlist[chatmark].innerHTML += content_five1 + content_right + pikatoImg(textvalue) + content_five2;
 			marklist[chatmark].children[1].children[1].innerText = textvalue;
 			scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]);
 			scrolllist[chatmark].children[0].style.top = chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
@@ -219,7 +222,6 @@ document.querySelector('#barleft').onclick = function() {
 	animate(document.querySelector('#content_contain'), 0, 7, 'left');
 	document.querySelector("#friendlist_son").style.display = 'block';
 	document.querySelector('#srcoll').style.display = 'block';
-	scrollfun(friendlist_son, srcoll_son); //bar的三个滚动条
 }
 document.querySelector('#barmiddle').onclick = function() {
 	listhidden();
@@ -287,7 +289,7 @@ document.addEventListener("keydown", function(e) {
 		F5();
 	}
 	if (e.keyCode == 13) {
-		if (document.querySelector('#login_contain').style.display == 'block')
+		if (document.querySelector('#login_contain').style.display != 'none')
 			document.querySelector('#login_btn').click();
 	}
 }, false);
@@ -376,8 +378,22 @@ document.querySelector('#emojicontain').onclick = function(e) {
 		textlist[chatmark] = document.querySelector('#chattext').value;
 	}
 }
+document.querySelector('#pikacontain').onclick = function(e) {
+	if (e.target.style.backgroundImage) {
+		var newvalue = insertStr(document.querySelector('#chattext').value, myblur,'[Pika:'+pikatoCN(e.target.style.backgroundImage)+']');
+		document.querySelector('#chattext').value = newvalue;
+		document.querySelector('#chattext').focus();
+		textlist[chatmark] = document.querySelector('#chattext').value;
+	}
+}
 document.querySelector('#emojibar').onclick = function(e) {
 	document.querySelector('#emojicontain').style.display = 'block';
+	document.querySelector('#pikacontain').style.display = 'none';
+	e.stopPropagation();
+}
+document.querySelector('#pikabar').onclick = function(e){
+	document.querySelector('#emojicontain').style.display = 'none';
+	document.querySelector('#pikacontain').style.display = 'block';
 	e.stopPropagation();
 }
 function TopHistory(e) {
@@ -391,9 +407,13 @@ document.onclick = function() {
 	document.querySelector('#login_out').style.display = 'none';
 	document.querySelector('#change').style.display = 'none';
 	document.querySelector('#emojicontain').style.display = 'none';
+	document.querySelector('#pikacontain').style.display = 'none';
 	document.querySelector('#textmenu').style.display = 'none';
 	document.querySelector('#chatmessege').style.display = 'none';
 }
+document.querySelector('#chatmessege').addEventListener('click',function(e){
+	e.stopPropagation();
+})
 function RecordBefore() {
 	var record = '';
 	for (let i = 0; i < friendlist_son.children.length; i++) {
@@ -492,6 +512,8 @@ function scrollfun(friendlists, scroll_son) { //内容 滚动条子元素
 					scroll_son.style.top = friendlists_parent.offsetHeight - scroll_son.offsetHeight + 'px';
 					friendlists.style.top = friendlists_parent.offsetHeight - friendlists.scrollHeight + 'px';
 					clearInterval(timeID);
+					if( friendlists.className =='chat_son'&&document.querySelector('#newtip').style.display == 'block')
+					document.querySelector('#newtip').style.display = 'none';
 					return;
 				}
 
@@ -615,40 +637,68 @@ document.addEventListener("mousemove", function(e) {
 		document.querySelector('#content_contain').style.left = iamthree * rightwidth + 'px';
 	}
 })
-$.ajax({
-	type: "GET", //data 传送数据类型。get 传递
-	url: 'https://www.apiopen.top/journalismApi',
-	dataType: 'json',
-	success: function(o) {
-		var newscontent = '';
-		newsdata = o.data;
-		for (i = 0; i < 8; i++) {
-			newscontent += (news_twoo + newsdata.toutiao[i].link + news_end + newsdata.toutiao[i].title + news_threeo);
-		}
-		for (i = 0; i < newsdata.tech.length; i++) {
-			if (newsdata.tech[i].picInfo.length == 0)
-				newscontent += (news_twooo + newsdata.tech[i].link + news_end + newsdata.tech[i].title + news_three);
-			else
-				newscontent += (news_one + newsdata.tech[i].picInfo[0].url + news_two + newsdata.tech[i].link + news_end +
-					newsdata.tech[i].title + news_three);
-			if (newsdata.dy[i].picInfo.length == 0)
-				newscontent += (news_twooo + newsdata.dy[i].link + news_end + newsdata.dy[i].title + news_three);
-			else
-				newscontent += (news_one + newsdata.dy[i].picInfo[0].url + news_two + newsdata.dy[i].link + news_end + newsdata
-					.dy[
-						i].title + news_three);
-		}
-		document.querySelector('#middlelist').innerHTML = newscontent;
-		document.querySelector('#middlelist').onclick = function(e) {
-			document.querySelector('#iframe').src = e.target.getAttribute("link");
-		}
-		var midlist = document.querySelector('#middlelist');
-		var midson = document.querySelector('#middlescroll_son');
-		scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
-		setTimeout(function() {
+function mynews(){
+	$.ajax({
+		type: "GET", //data 传送数据类型。get 传递
+		url: 'https://www.apiopen.top/journalismApi',
+		dataType: 'json',
+		success: function(o) {
+			var newscontent = '';
+			newsdata = o.data;
+			for (i = 0; i < 8; i++) {
+				newscontent += (news_twoo + newsdata.toutiao[i].link + news_end + newsdata.toutiao[i].title + news_threeo);
+			}
+			for (i = 0; i < newsdata.tech.length; i++) {
+				if (newsdata.tech[i].picInfo.length == 0)
+					newscontent += (news_twooo + newsdata.tech[i].link + news_end + newsdata.tech[i].title + news_three);
+				else
+					newscontent += (news_one + newsdata.tech[i].picInfo[0].url + news_two + newsdata.tech[i].link + news_end +
+						newsdata.tech[i].title + news_three);
+				if (newsdata.dy[i].picInfo.length == 0)
+					newscontent += (news_twooo + newsdata.dy[i].link + news_end + newsdata.dy[i].title + news_three);
+				else
+					newscontent += (news_one + newsdata.dy[i].picInfo[0].url + news_two + newsdata.dy[i].link + news_end + newsdata
+						.dy[
+							i].title + news_three);
+			}
+			document.querySelector('#middlelist').innerHTML = newscontent;
+			document.querySelector('#middlelist').onclick = function(e) {
+				document.querySelector('#iframe').src = e.target.getAttribute("link");
+			}
+			var midlist = document.querySelector('#middlelist');
+			var midson = document.querySelector('#middlescroll_son');
 			scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
-		}, 2000)
+			setTimeout(function() {
+				scrollfun(document.querySelector('#middlelist'), document.querySelector('#middlescroll_son'));
+			}, 2000)
+		},
+		error:function(){
+			mynew();
+		}
+	})
+}
+function pikatoCN(c){
+	var regular = /[\u4e00-\u9fa5]{2}/;
+	return regular.exec(c)[0];
+}
+function pikatoImg(c){
+	var regular_one = /\[Pika:[\u4e00-\u9fa5]{2}]/g;
+	if(regular_one.test(c)) 
+	{
+	var newstring = c.match(regular_one)
+	var img_one = '<img class="pikagif" src="face/';
+	var img_two = '.gif" />'
+	for(let i = 0 ; i< newstring.length ; i++){
+		newstring[i] = newstring[i].replace('[Pika:',img_one);
+		newstring[i] = newstring[i].replace(']',img_two);
+		c= c.replace(/\[Pika:[\u4e00-\u9fa5]{2}]/,newstring[i]);
 	}
-})
-drag(document.querySelector('#login_contain'));
+	// c = c.replace(/\\/g , ''); 
+	return c;
+	}
+	return c;
+}
+mynews();
+drag(document.querySelector('#chatmessege'));
+drag(document.querySelector('#change'));
 drag(document.querySelector('#maskson'));

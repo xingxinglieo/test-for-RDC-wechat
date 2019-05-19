@@ -1,5 +1,5 @@
 .chats {
-	max-width: 240px;
+	max-width: 550px;
 	min-height: 21px;
 	min-width: 30px;
 	word-wrap: break-word;
@@ -8,6 +8,13 @@
 	padding: 10px;
 	position: relative;
 	white-space: pre-line;
+	-moz-user-select: text;
+	/* 火狐 */
+	-webkit-user-select: text;
+	/* 谷歌 */
+	-ms-user-select: text;
+	/* IE */
+	user-select: text;
 }
 
 .leftchat {
@@ -120,12 +127,57 @@
 
 #emojibar {
 	float: left;
-	margin-left: 5px;
+	margin: 0px 5px;
 	font-size: 16px
 }
 
-#emojibar:hover+#emojicontain {
-	display: block;
+#pikabar {
+	height: 21.5px;
+	width: 22px;
+	margin-top: 2px;
+	float: left;
+	background-image: url(../img/pika.jpeg);
+	background-position-y: -5.5px;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#pikabar:hover {
+	cursor: pointer;
+}
+
+#pikacontain {
+	width: 290px;
+	height: auto;
+	padding: 2px;
+	position: absolute;
+	top: -125px;
+	left: 5px;
+	font-size: 20px;
+	box-shadow: 1px 1px 10px 1px gray;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 3px;
+	/* display: none; */
+
+}
+
+.pikaface {
+	width: 54px;
+	height: 54px;
+	margin: 2px;
+	float: left;
+}
+
+.pikaface:hover {
+	cursor: pointer;
+}
+
+.pikagif {
+	height: 200px;
+	width: 200px;
+	border-radius: 5px;
+	vertical-align: bottom;
+	margin: 0px 3px;
 }
 
 #newtip {

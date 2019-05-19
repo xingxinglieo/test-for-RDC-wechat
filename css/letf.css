@@ -389,6 +389,7 @@
 }
 
 .friendname {
+	height: 36px;
 	color: black;
 	vertical-align: top;
 	line-height: 2;
@@ -459,6 +460,13 @@
 	background: transparent;
 	/* padding: 0px 15px; */
 	font-size: 17px;
+	-moz-user-select: text;
+	/* 火狐 */
+	-webkit-user-select: text;
+	/* 谷歌 */
+	-ms-user-select: text;
+	/* IE */
+	user-select: text;
 }
 
 #textbtn {

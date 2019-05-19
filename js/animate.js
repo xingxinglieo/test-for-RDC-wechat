@@ -61,20 +61,21 @@ function animate(element, target, interval, direction) {
 		}, interval);
 	}
 }
+
 function drag(dom) {
 	var boxleft, boxtop;
-	var marked =false;
+	var marked = false;
 	dom.addEventListener("mousedown", function(e) {
-		marked =true;
+		marked = true;
 		dom.style.cursor = 'move';
 		boxleft = e.pageX - dom.offsetLeft; //获取鼠标在盒子中横向位置
 		boxtop = e.pageY - dom.offsetTop; //获取鼠标在盒子中的枞向位置
-		document.addEventListener("mousemove",function(e) {
+		document.addEventListener("mousemove", function(e) {
 			if (marked) {
 				dom.style.top = (e.pageY - boxtop) + 'px';
 				dom.style.left = (e.pageX - boxleft) + 'px';
 			}
-		}) 
+		})
 	})
 
 	dom.addEventListener("mouseup", function() {
@@ -82,3 +83,21 @@ function drag(dom) {
 		dom.style.cursor = 'default';
 	})
 };
+
+function flash_title(name) {
+	if (winblur) {
+		window.flash_block = setInterval(function() {
+			document.title = '您有新消息了!';
+			if (!winblur) {
+				clearInterval(flash_none);
+				clearInterval(flash_block);
+				document.title = 'R&D'
+			}
+		}, 2000)
+		setTimeout(function() {
+			window.flash_none = setInterval(function() {
+				document.title = '来自 ' + name + ' 的消息';
+			}, 2000)
+		}, 1000)
+	}
+}

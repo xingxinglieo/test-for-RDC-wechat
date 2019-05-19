@@ -92,7 +92,6 @@ function getList() {
 			historymark = [];
 			dotmark = [];
 			hisintroduction = [];
-			// setTimeout(function(){console.log(historylist)},10000)
 			var content = '';
 			var rightcontent = '';
 			for (let i = 0; i < friendchat.length; i++) {
@@ -151,8 +150,10 @@ function getList() {
 					document.querySelector('#chattext').focus();
 				}
 				rightlist.children[i].onclick = function(e) {
+
 					chatmark = this.getAttribute("mark");
 					document.querySelector("#messagedetail").innerHTML = messagelist[chatmark];
+					document.querySelector('.nickname').innerText = hisname[chatmark];
 					document.querySelector('.send_btn').onclick = function() { //详情页面发送按钮的点击事件
 						document.querySelector('#barleft').click();
 						marklist[chatmark].click();
@@ -162,6 +163,9 @@ function getList() {
 						document.querySelector('#friendlist_son').style.top = '0px';
 
 					};
+				}
+				rightlist.children[i].ondblclick = function(e){
+					document.querySelector('.send_btn').click();
 				}
 			}
 			FirstnewMessage();
@@ -183,21 +187,18 @@ function message(e) {
 			id: e
 		},
 		dataType: 'json',
-		timeout: 3000,
 		success: function(data) {
-			var name;
 			if (data.message.nickname == undefined || data.message.nickname == '')
-				name = '未命名(id:' + e + ')'; //对方未命名时 加上未命名
+				hisname[e] = '未命名(id:' + e + ')'; //对方未命名时 加上未命名
 			else {
-				name = data.message.nickname;
+				hisname[e] = data.message.nickname;
 			}
-			hisname[e] = name;
 			hisintroduction[e] = data.message.introduction || '';
 			if (e != myID) {
-				document.querySelectorAll('.friendname')[e].innerText = name;
-				document.querySelectorAll('.right_friendname')[e].innerText = name;
+				marklist[e].children[1].children[0].innerText = hisname[e];
+				document.querySelectorAll('.right_friendname')[e].innerText = hisname[e];
 			} else {
-				document.querySelectorAll('.friendname')[e].innerText = '我';
+				marklist[e].children[1].children[0].innerText = '我';
 				document.querySelectorAll('.right_friendname')[e].innerText = '我';
 			}
 			messagelist[e] = message_one + message_two + data.message.introduction + message_three + data.message.age +
@@ -226,11 +227,12 @@ function newMessage() {
 		success: function(data) {
 			var timecontent;
 			var aumark = 0;
+			if(data.message.length>0) flash_title(hisname[data.message[data.message.length-1].sender]);
 			for (let i = 0; i < data.message.length; i++) {
-				if(data.message[i].sender!=chatmark)
-				dotmark[data.message[i].sender]++;
+				if (data.message[i].sender != chatmark)
+					dotmark[data.message[i].sender]++;
 				timecontent = data.message[i].date.substring(5, 10) + '  ' + data.message[i].date.substring(11, 16);
-				chatlist[data.message[i].sender].innerHTML += (content_five1 + timecontent + content_left + data.message[i].content +
+				chatlist[data.message[i].sender].innerHTML += (content_five1 + timecontent + content_left + pikatoImg(data.message[i].content) +
 					content_five2);
 				marklist[data.message[i].sender].children[1].children[1].innerText = data.message[i].content; //提示更新 内容更新
 				marklist[data.message[i].sender].children[1].children[2].innerText = timecontent;
@@ -247,7 +249,7 @@ function newMessage() {
 				}
 				if (data.message[i].sender == chatmark) {
 					if (chatlist[chatmark].offsetTop <= chatlist[chatmark].parentNode.offsetHeight -
-						chatlist[chatmark].scrollHeight + 200) { //使在较低处的回到低处
+						chatlist[chatmark].scrollHeight + 350) { //使在较低处的回到低处
 						animate(scrolllist[chatmark].children[0], chatlist[chatmark].parentNode.offsetHeight - scrolllist[chatmark].children[
 							0].offsetHeight, 30, 'top');
 						animate(chatlist[chatmark], chatlist[chatmark].parentNode.offsetHeight - chatlist[chatmark].scrollHeight, 30,
@@ -279,7 +281,7 @@ function FirstnewMessage() {
 			setTimeout(function() {
 				Relist();
 				if (data.message.length > 0) au.play();
-				for (let i = 0;i < data.message.length; i++) {
+				for (let i = 0; i < data.message.length; i++) {
 					dotmark[data.message[i].sender]++;
 					marklist[data.message[i].sender].children[1].children[1].innerText = data.message[i].content;
 					marklist[data.message[i].sender].children[2].innerText = dotmark[data.message[i].sender];
@@ -290,7 +292,7 @@ function FirstnewMessage() {
 				var display = friendlist_son.children[0].children[2].style.display;
 				friendlist_son.children[0].children[2].style.display = display;
 				rightlist.children[0].click();
-			}, 1500)
+			}, 500)
 
 			for (let i = 0; i < friendchat.length; i++) {
 				History('' + i);
@@ -342,8 +344,8 @@ function getChathistory(hisid) {
 					contents += (content_five1 + timecontent + content_right + data.message[i].content + content_five2);
 				}
 			}
+			contents = pikatoImg(contents);
 			chatlist[chatmark].innerHTML = contents;
-			// console.log(data.message[data.message.length-1].content);
 			marklist[hisid].children[1].children[1].innerText = data.message[data.message.length - 1].content; //用户名 
 			scrollfun(chatlist[chatmark], scrolllist[chatmark].children[0]); //更新滚动条长度
 			if (chatlist[chatmark].scrollHeight > chatlist[chatmark].parentNode.offsetHeight) {
@@ -357,6 +359,7 @@ function getChathistory(hisid) {
 		},
 	});
 }
+
 function History(hisid) {
 	historylist[hisid + 0] = [];
 	if (hisid == myID) return;
@@ -383,11 +386,11 @@ function History(hisid) {
 				var timecontent = data.message[i].date.substring(5, 10) + '  ' + data.message[i].date.substring(11, 16);
 				if (data.message[i].sender != myID) {
 
-					historylist[hisid + 0][Math.floor(j / 10)][j % 10] = (content_five1 + timecontent + content_left + data.message[
-						i].content + content_five2);
+					historylist[hisid + 0][Math.floor(j / 10)][j % 10] = (content_five1 + timecontent + content_left + pikatoImg(data.message[
+						i].content) + content_five2)
 				} else {
-					historylist[hisid + 0][Math.floor(j / 10)][j % 10] = (content_five1 + timecontent + content_right + data.message[
-						i].content + content_five2);
+					historylist[hisid + 0][Math.floor(j / 10)][j % 10] = (content_five1 + timecontent + content_right + pikatoImg(data.message[
+						i].content) + content_five2)
 				}
 			}
 
@@ -395,6 +398,7 @@ function History(hisid) {
 	})
 
 }
+
 function maskshow(q) {
 	document.querySelector('#mask').style.display = 'block';
 	document.querySelector('#alert').innerText = q;
